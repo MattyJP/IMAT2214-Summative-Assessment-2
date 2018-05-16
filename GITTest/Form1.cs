@@ -27,15 +27,32 @@ namespace GITTest
             //Clear the listbox of existing contents
             listBoxDates.Items.Clear();
 
-            //Create the database string
-            string connectionString = Properties.Settings.Default.Data_set_1ConnectionString;
+            //Create the database string for Set 1 and Set 2
+            string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
+            string connectionStringSet2 = Properties.Settings.Default.Data_set_2ConnectionString;
 
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet1))
             {
                 connection.Open();
                 OleDbDataReader reader = null;
-                //Obtain the dates from Sheet1
-                OleDbCommand getDates = new OleDbCommand("SELECT [Order Date], [Ship Date] from Sheet1'", connection);
+                //Obtain the dates from Dataset1
+                OleDbCommand getDates = new OleDbCommand("SELECT [Order Date], [Ship Date] from Sheet1", connection);
+
+                reader = getDates.ExecuteReader();
+                while (reader.Read())
+                {
+                    //Add the dates to the list
+                    Dates.Add(reader[0].ToString());
+                    Dates.Add(reader[1].ToString());
+                }
+            }
+
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet2))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                //Obtain the dates from Dataset2 in entries where the row is properly formatted (row values match columns)
+                OleDbCommand getDates = new OleDbCommand("SELECT [Order Date], [Ship Date] from [Student Sample 2 - Sheet1] WHERE [Field22] IS NULL", connection);
 
                 reader = getDates.ExecuteReader();
                 while (reader.Read())
@@ -74,15 +91,31 @@ namespace GITTest
             //Clear the listbox of existing contents
             listBoxProducts.Items.Clear();
 
-            //Create the database string
-            string connectionString = Properties.Settings.Default.Data_set_1ConnectionString;
+            //Create the database string for Set 1 and Set 2
+            string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
+            string connectionStringSet2 = Properties.Settings.Default.Data_set_2ConnectionString;
 
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet1))
             {
                 connection.Open();
                 OleDbDataReader reader = null;
-                //Obtain the product category, subcategory and name from Sheet1
+                //Obtain the product category, subcategory and name from Dataset1
                 OleDbCommand getProducts = new OleDbCommand("SELECT [Category], [Sub-Category], [Product Name] from Sheet1'", connection);
+                reader = getProducts.ExecuteReader();
+                while (reader.Read())
+                {
+                    //Add the results to the list, with category, subcategory and product name separated by an underscore
+                    //This allows them to be separated and divided into their respective database columns through the split command later on
+                    Products.Add(reader[0].ToString() + "_" + reader[1].ToString() + "_" + reader[2].ToString());
+                }
+            }
+
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet2))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                //Obtain the product category, subcategory and name from Dataset2 in entries where the row is properly formatted (row values match columns)
+                OleDbCommand getProducts = new OleDbCommand("SELECT [Category], [Sub-Category], [Product Name] from [Student Sample 2 - Sheet1] WHERE [Field22] IS NULL", connection);
                 reader = getProducts.ExecuteReader();
                 while (reader.Read())
                 {
@@ -108,15 +141,33 @@ namespace GITTest
             //Clear the listbox of existing contents
             listBoxCustomers.Items.Clear();
 
-            //Create the database string
-            string connectionString = Properties.Settings.Default.Data_set_1ConnectionString;
+            //Create the database string for Set 1 and Set 2
+            string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
+            string connectionStringSet2 = Properties.Settings.Default.Data_set_2ConnectionString;
 
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet1))
             {
                 connection.Open();
                 OleDbDataReader reader = null;
                 //Obtain the customer name, country, city, state, postal code, region and segment from Sheet1
                 OleDbCommand getCustomers = new OleDbCommand("SELECT [Customer Name], [Country], [City], [State], [Postal Code], [Region], [Segment] from Sheet1'", connection);
+
+                reader = getCustomers.ExecuteReader();
+                while (reader.Read())
+                {
+                    //Add the results to the list, with ceach segment separated by an underscore
+                    //This allows them to be separated and divided into their respective database columns through the split command later on
+                    Customers.Add(reader[0].ToString() + "_" + reader[1].ToString() + "_" + reader[2].ToString() + "_" +
+                        reader[3].ToString() + "_" + reader[4].ToString() + "_" + reader[5].ToString() + "_" + reader[6].ToString());
+                }
+            }
+
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet2))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                //Obtain the customer name, country, city, state, postal code, region and segment from Dataset2 in entries where the row is properly formatted (row values match columns)
+                OleDbCommand getCustomers = new OleDbCommand("SELECT [Customer Name], [Country], [City], [State], [Postal Code], [Region], [Segment] from [Student Sample 2 - Sheet1] WHERE [Field22] IS NULL", connection);
 
                 reader = getCustomers.ExecuteReader();
                 while (reader.Read())
@@ -178,7 +229,7 @@ namespace GITTest
             string country = arrayCustomer[1];
             string city = arrayCustomer[2];
             string state = arrayCustomer[3];
-            int postalCode = Convert.ToInt32(arrayCustomer[4]);
+            string postalCode = arrayCustomer[4];
             string region = arrayCustomer[5];
             string reference = arrayCustomer[6];
 
@@ -281,7 +332,7 @@ namespace GITTest
             }
         }
 
-        private void insertCustomerDimension(string customerName, string country, string city, string state, int postalCode, string region, string reference)
+        private void insertCustomerDimension(string customerName, string country, string city, string state, string postalCode, string region, string reference)
         {
             //Create a connection to the MDF file
             string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
@@ -429,15 +480,34 @@ namespace GITTest
             //Create new list to store the results in.
             List<string> Orders = new List<string>();
 
-            //Create the database string
-            string connectionString = Properties.Settings.Default.Data_set_1ConnectionString;
+            //Create the database string for Set 1 and Set 2
+            string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
+            string connectionStringSet2 = Properties.Settings.Default.Data_set_2ConnectionString;
 
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet1))
             {
                 connection.Open();
                 OleDbDataReader reader = null;
                 //Obtains the relevant information for the fact table, using the dates, customer name and product name to find the primary keys in a layer function
-                OleDbCommand getOrders = new OleDbCommand("SELECT [Order Date], [Customer Name], [Product Name], [Sales], [Discount], [Profit], [Quantity] from Sheet1'", connection);
+                OleDbCommand getOrders = new OleDbCommand("SELECT [Order Date], [Customer Name], [Product Name], [Sales], [Discount], [Profit], [Quantity] from Sheet1", connection);
+
+                reader = getOrders.ExecuteReader();
+                while (reader.Read())
+                {
+                    //Data from different tables is separated with a #, while data from the same table is separated with an underscore
+                    //This allows them to be split into smaller arrays later in the process
+                    Orders.Add(reader[0].ToString() + "#" + reader[1].ToString() + "#" +
+                        reader[2].ToString() + "#" + reader[3].ToString() + "_" + reader[4].ToString() + "_" + reader[5].ToString() + "_" + reader[6].ToString());
+                }
+            }
+
+            using (OleDbConnection connection = new OleDbConnection(connectionStringSet2))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                //Obtains the relevant information for the fact table, using the dates, customer name and product name to find the primary keys in a layer function 
+                //In entries where the row is properly formatted (row values match columns)
+                OleDbCommand getOrders = new OleDbCommand("SELECT [Order Date], [Customer Name], [Product Name], [Sales], [Discount], [Profit], [Quantity] from [Student Sample 2 - Sheet1] WHERE [Field22] IS NULL", connection);
 
                 reader = getOrders.ExecuteReader();
                 while (reader.Read())
