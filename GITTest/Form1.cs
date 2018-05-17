@@ -555,7 +555,7 @@ namespace GITTest
             }
         }
 
-            private int GetTimeId(string dbDate)
+        private int GetTimeId(string dbDate)
         {
             //Create a variable to store the time ID
             int timeId = 0;
@@ -643,6 +643,201 @@ namespace GITTest
             }
             return customerId;
         }
+
+        private void buttonLoadData_Click(object sender, EventArgs e)
+        {
+            //Add the Week fields from the Time dimension to the combo box
+            BindDataWeek();
+        }
+
+        public void BindDataWeek()
+        {
+
+            //Create a connection to the MDF file
+            string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+
+            //Create a list to store the week numbers
+            List<string> Weeks = new List<String>();
+
+            using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+            {
+                //Open the SqlConnection
+                myConnection.Open();
+                //Obtain the week numbers from the Time dimension with no duplicates
+                //The same command also checks if the dates corresponding to the week number have any data from the fact table
+                SqlCommand command = new SqlCommand("SELECT DISTINCT weekNumber FROM Time JOIN FactTable ON FactTable.timeId = Time.timeId", myConnection);
+                //Run the command and read the results
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    //If the week is valid (contains data)
+                    if (reader.HasRows)
+                    { 
+                    while (reader.Read())
+                    {
+                        //Add each distinct week number to the Weeks list
+                        Weeks.Add(reader.GetDecimal(0).ToString());
+                    }
+                }
+                }
+            }
+
+            foreach (string week in Weeks)
+            {
+                //Assign each week number to the comboBox
+                comboBoxWeek.Items.Add(week);
+            }
+
+            //Enable the comboBox
+            comboBoxWeek.Enabled = true;
+
+        }
+
+        private void comboBoxWeek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Create an Int32 variable to hold the week number
+            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem);
+
+            //Create a list to store the dates found matching the week number
+            List<string> Dates = new List<string>();
+            //Create a list to store the dates found matching the week number
+            List<string> Categories = new List<string>();
+            //Dictionary to store the sales count, matching a date to a value
+            Dictionary<string, int> salesCount = new Dictionary<string, int>();
+            //Dictionary to store the sales count, matching a date to a value
+            Dictionary<string, int> salesCountCategoryWeekly = new Dictionary<string, int>();
+
+            //Create a connection to the MDF file
+            string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+
+            //Obtain the dates from the Time database matching the week number
+            using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+            {
+                //Open the SqlConnection
+                myConnection.Open();
+                //Obtain the dates
+                SqlCommand salesCommand = new SqlCommand("SELECT date FROM Time WHERE weekNumber=@weekNumber", myConnection);
+                //Obtain the category names
+                SqlCommand categoryCommand = new SqlCommand("SELECT DISTINCT category FROM Product", myConnection);
+                //Add the week number parameter
+                salesCommand.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
+                //Run the command and read the results
+                using (SqlDataReader reader = salesCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        //Add each date to the list
+                        Dates.Add(reader.GetDateTime(0).ToString());
+                    }
+                }
+                //Run the command and read the results
+                using (SqlDataReader reader = categoryCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        //Add each category to the list
+                        Categories.Add(reader.GetString(0));
+                    }
+                }
+            }
+
+            //Create a new list for the formatted dates
+            List<string> DatesFormatted = new List<string>();
+            //Remove the time element from each date
+            foreach (string date in Dates)
+            {
+                //Split the string on whitespace and remove anything thats blan.
+                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+                //Grab the first item (we know this is the date) and add it to our new list
+                DatesFormatted.Add(dates[0]);
+            }
+
+            //Run this code for each date in the list in order to populate the bar chart, focusing on overall daily sales per business week
+            foreach (string date in DatesFormatted)
+            {
+                string[] arrayDate = date.Split('/');
+                int year = Convert.ToInt32(arrayDate[2]);
+                int month = Convert.ToInt32(arrayDate[1]);
+                int day = Convert.ToInt32(arrayDate[0]);
+                string dateFormatted = year + "-" + month + "-" + day;
+
+                using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+                {
+                    //Open the Sql connection
+                    myConnection.Open();
+                    //The following code use an Sql command based on the Sql connection
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Time ON FactTable.timeId = Time.timeId WHERE Time.date = @date; ", myConnection);
+                    //Add the date parameter
+                    command.Parameters.Add(new SqlParameter("date", dateFormatted));
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        //If there are rows, it means there were sales
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                //This line adds a dictionary item with the key of the date, and the value being the sales number
+                                salesCount.Add(date, Int32.Parse(reader["SalesNumber"].ToString()));
+                            }
+                        }
+                        //If there are no rows, it means there were 0 sales
+                        else
+                        {
+                            salesCount.Add(date, 0);
+                        }
+                    }
+
+                }
+            }
+
+            //Run this code for each category in the list in order to populate the pie chart, focusing on weekly sales per product category
+            foreach (string category in Categories)
+            {
+                using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+                {
+                    //Open the Sql connection
+                    myConnection.Open();
+                    //The following code use an Sql command based on the Sql connection
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Product ON FactTable.productId = Product.productId INNER JOIN " 
+                        + " Time ON FactTable.timeId = Time.timeId WHERE Product.category = @category AND Time.weekNumber=@weekNumber; ", myConnection);
+                    //Add the parameters
+                    command.Parameters.Add(new SqlParameter("category", category));
+                    command.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        //If there are rows, it means there were sales
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                //This line adds a dictionary item with the key of the category, and the value being the sales number
+
+                                salesCountCategoryWeekly.Add(category, Int32.Parse(reader["SalesNumber"].ToString()));
+                            }
+                        }
+                        //If there are no rows, it means there were 0 sales
+                        else
+                        {
+                            salesCountCategoryWeekly.Add(category, 0);
+                        }
+                    }
+
+                }
+
+                //Build the bar chart
+                chartBar.DataSource = salesCount;
+                chartBar.Series[0].XValueMember = "Key";
+                chartBar.Series[0].YValueMembers = "Value";
+                chartBar.DataBind();
+
+                //Build the pie chart
+                chartPie.DataSource = salesCountCategoryWeekly;
+                chartPie.Series[0].XValueMember = "Key";
+                chartPie.Series[0].YValueMembers = "Value";
+                chartPie.DataBind();
+            }
+        }
     }
-    }
+}
 

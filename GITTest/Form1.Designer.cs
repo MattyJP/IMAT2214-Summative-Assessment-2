@@ -28,23 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.GetDates = new System.Windows.Forms.Button();
             this.listBoxDates = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.buttonGetProducts = new System.Windows.Forms.Button();
-            this.listBoxProducts = new System.Windows.Forms.ListBox();
+            this.buttonGetFactTable = new System.Windows.Forms.Button();
+            this.listBoxFactTableFromDbNamed = new System.Windows.Forms.ListBox();
+            this.listBoxCustomersFromDbNamed = new System.Windows.Forms.ListBox();
+            this.listBoxProductsFromDbNamed = new System.Windows.Forms.ListBox();
+            this.listBoxDatesFromDbNamed = new System.Windows.Forms.ListBox();
+            this.buttonGetFromDb = new System.Windows.Forms.Button();
             this.listBoxCustomers = new System.Windows.Forms.ListBox();
             this.buttonGetCustomers = new System.Windows.Forms.Button();
-            this.buttonGetFromDb = new System.Windows.Forms.Button();
-            this.listBoxDatesFromDbNamed = new System.Windows.Forms.ListBox();
-            this.listBoxProductsFromDbNamed = new System.Windows.Forms.ListBox();
-            this.listBoxCustomersFromDbNamed = new System.Windows.Forms.ListBox();
-            this.listBoxFactTableFromDbNamed = new System.Windows.Forms.ListBox();
-            this.buttonGetFactTable = new System.Windows.Forms.Button();
+            this.listBoxProducts = new System.Windows.Forms.ListBox();
+            this.buttonGetProducts = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.comboBoxWeek = new System.Windows.Forms.ComboBox();
+            this.chartPie = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartBar = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.buttonLoadData = new System.Windows.Forms.Button();
+            this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
+            this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartPie)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // GetDates
@@ -99,35 +117,57 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // buttonGetFactTable
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 74);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.buttonGetFactTable.Location = new System.Drawing.Point(195, 114);
+            this.buttonGetFactTable.Name = "buttonGetFactTable";
+            this.buttonGetFactTable.Size = new System.Drawing.Size(75, 66);
+            this.buttonGetFactTable.TabIndex = 13;
+            this.buttonGetFactTable.Text = "Populate Fact Table";
+            this.buttonGetFactTable.UseVisualStyleBackColor = true;
+            this.buttonGetFactTable.Click += new System.EventHandler(this.buttonGetFactTable_Click);
             // 
-            // buttonGetProducts
+            // listBoxFactTableFromDbNamed
             // 
-            this.buttonGetProducts.Location = new System.Drawing.Point(18, 136);
-            this.buttonGetProducts.Name = "buttonGetProducts";
-            this.buttonGetProducts.Size = new System.Drawing.Size(97, 23);
-            this.buttonGetProducts.TabIndex = 4;
-            this.buttonGetProducts.Text = "Get Products";
-            this.buttonGetProducts.UseVisualStyleBackColor = true;
-            this.buttonGetProducts.Click += new System.EventHandler(this.buttonGetProducts_Click);
+            this.listBoxFactTableFromDbNamed.FormattingEnabled = true;
+            this.listBoxFactTableFromDbNamed.Location = new System.Drawing.Point(379, 409);
+            this.listBoxFactTableFromDbNamed.Name = "listBoxFactTableFromDbNamed";
+            this.listBoxFactTableFromDbNamed.Size = new System.Drawing.Size(502, 108);
+            this.listBoxFactTableFromDbNamed.TabIndex = 12;
             // 
-            // listBoxProducts
+            // listBoxCustomersFromDbNamed
             // 
-            this.listBoxProducts.FormattingEnabled = true;
-            this.listBoxProducts.HorizontalScrollbar = true;
-            this.listBoxProducts.Location = new System.Drawing.Point(18, 165);
-            this.listBoxProducts.Name = "listBoxProducts";
-            this.listBoxProducts.ScrollAlwaysVisible = true;
-            this.listBoxProducts.Size = new System.Drawing.Size(120, 95);
-            this.listBoxProducts.TabIndex = 5;
+            this.listBoxCustomersFromDbNamed.FormattingEnabled = true;
+            this.listBoxCustomersFromDbNamed.Location = new System.Drawing.Point(379, 295);
+            this.listBoxCustomersFromDbNamed.Name = "listBoxCustomersFromDbNamed";
+            this.listBoxCustomersFromDbNamed.Size = new System.Drawing.Size(502, 108);
+            this.listBoxCustomersFromDbNamed.TabIndex = 11;
+            // 
+            // listBoxProductsFromDbNamed
+            // 
+            this.listBoxProductsFromDbNamed.FormattingEnabled = true;
+            this.listBoxProductsFromDbNamed.Location = new System.Drawing.Point(379, 181);
+            this.listBoxProductsFromDbNamed.Name = "listBoxProductsFromDbNamed";
+            this.listBoxProductsFromDbNamed.Size = new System.Drawing.Size(502, 108);
+            this.listBoxProductsFromDbNamed.TabIndex = 10;
+            // 
+            // listBoxDatesFromDbNamed
+            // 
+            this.listBoxDatesFromDbNamed.FormattingEnabled = true;
+            this.listBoxDatesFromDbNamed.Location = new System.Drawing.Point(379, 64);
+            this.listBoxDatesFromDbNamed.Name = "listBoxDatesFromDbNamed";
+            this.listBoxDatesFromDbNamed.Size = new System.Drawing.Size(502, 108);
+            this.listBoxDatesFromDbNamed.TabIndex = 9;
+            // 
+            // buttonGetFromDb
+            // 
+            this.buttonGetFromDb.Location = new System.Drawing.Point(379, 35);
+            this.buttonGetFromDb.Name = "buttonGetFromDb";
+            this.buttonGetFromDb.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetFromDb.TabIndex = 8;
+            this.buttonGetFromDb.Text = "Get From Db";
+            this.buttonGetFromDb.UseVisualStyleBackColor = true;
+            this.buttonGetFromDb.Click += new System.EventHandler(this.buttonGetFromDb_Click);
             // 
             // listBoxCustomers
             // 
@@ -149,57 +189,102 @@
             this.buttonGetCustomers.UseVisualStyleBackColor = true;
             this.buttonGetCustomers.Click += new System.EventHandler(this.buttonGetCustomers_Click);
             // 
-            // buttonGetFromDb
+            // listBoxProducts
             // 
-            this.buttonGetFromDb.Location = new System.Drawing.Point(379, 35);
-            this.buttonGetFromDb.Name = "buttonGetFromDb";
-            this.buttonGetFromDb.Size = new System.Drawing.Size(75, 23);
-            this.buttonGetFromDb.TabIndex = 8;
-            this.buttonGetFromDb.Text = "Get From Db";
-            this.buttonGetFromDb.UseVisualStyleBackColor = true;
-            this.buttonGetFromDb.Click += new System.EventHandler(this.buttonGetFromDb_Click);
+            this.listBoxProducts.FormattingEnabled = true;
+            this.listBoxProducts.HorizontalScrollbar = true;
+            this.listBoxProducts.Location = new System.Drawing.Point(18, 165);
+            this.listBoxProducts.Name = "listBoxProducts";
+            this.listBoxProducts.ScrollAlwaysVisible = true;
+            this.listBoxProducts.Size = new System.Drawing.Size(120, 95);
+            this.listBoxProducts.TabIndex = 5;
             // 
-            // listBoxDatesFromDbNamed
+            // buttonGetProducts
             // 
-            this.listBoxDatesFromDbNamed.FormattingEnabled = true;
-            this.listBoxDatesFromDbNamed.Location = new System.Drawing.Point(379, 64);
-            this.listBoxDatesFromDbNamed.Name = "listBoxDatesFromDbNamed";
-            this.listBoxDatesFromDbNamed.Size = new System.Drawing.Size(502, 108);
-            this.listBoxDatesFromDbNamed.TabIndex = 9;
+            this.buttonGetProducts.Location = new System.Drawing.Point(18, 136);
+            this.buttonGetProducts.Name = "buttonGetProducts";
+            this.buttonGetProducts.Size = new System.Drawing.Size(97, 23);
+            this.buttonGetProducts.TabIndex = 4;
+            this.buttonGetProducts.Text = "Get Products";
+            this.buttonGetProducts.UseVisualStyleBackColor = true;
+            this.buttonGetProducts.Click += new System.EventHandler(this.buttonGetProducts_Click);
             // 
-            // listBoxProductsFromDbNamed
+            // tabPage2
             // 
-            this.listBoxProductsFromDbNamed.FormattingEnabled = true;
-            this.listBoxProductsFromDbNamed.Location = new System.Drawing.Point(379, 181);
-            this.listBoxProductsFromDbNamed.Name = "listBoxProductsFromDbNamed";
-            this.listBoxProductsFromDbNamed.Size = new System.Drawing.Size(502, 108);
-            this.listBoxProductsFromDbNamed.TabIndex = 10;
+            this.tabPage2.Controls.Add(this.comboBoxWeek);
+            this.tabPage2.Controls.Add(this.chartPie);
+            this.tabPage2.Controls.Add(this.chartBar);
+            this.tabPage2.Controls.Add(this.buttonLoadData);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(934, 526);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // listBoxCustomersFromDbNamed
+            // comboBoxWeek
             // 
-            this.listBoxCustomersFromDbNamed.FormattingEnabled = true;
-            this.listBoxCustomersFromDbNamed.Location = new System.Drawing.Point(379, 295);
-            this.listBoxCustomersFromDbNamed.Name = "listBoxCustomersFromDbNamed";
-            this.listBoxCustomersFromDbNamed.Size = new System.Drawing.Size(502, 108);
-            this.listBoxCustomersFromDbNamed.TabIndex = 11;
+            this.comboBoxWeek.Enabled = false;
+            this.comboBoxWeek.FormattingEnabled = true;
+            this.comboBoxWeek.Location = new System.Drawing.Point(257, 363);
+            this.comboBoxWeek.Name = "comboBoxWeek";
+            this.comboBoxWeek.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxWeek.TabIndex = 3;
+            this.comboBoxWeek.SelectedIndexChanged += new System.EventHandler(this.comboBoxWeek_SelectedIndexChanged);
             // 
-            // listBoxFactTableFromDbNamed
+            // chartPie
             // 
-            this.listBoxFactTableFromDbNamed.FormattingEnabled = true;
-            this.listBoxFactTableFromDbNamed.Location = new System.Drawing.Point(379, 409);
-            this.listBoxFactTableFromDbNamed.Name = "listBoxFactTableFromDbNamed";
-            this.listBoxFactTableFromDbNamed.Size = new System.Drawing.Size(502, 108);
-            this.listBoxFactTableFromDbNamed.TabIndex = 12;
+            chartArea3.Name = "ChartArea1";
+            this.chartPie.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chartPie.Legends.Add(legend3);
+            this.chartPie.Location = new System.Drawing.Point(385, 56);
+            this.chartPie.Name = "chartPie";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chartPie.Series.Add(series3);
+            this.chartPie.Size = new System.Drawing.Size(300, 300);
+            this.chartPie.TabIndex = 2;
+            this.chartPie.Text = "chart2";
             // 
-            // buttonGetFactTable
+            // chartBar
             // 
-            this.buttonGetFactTable.Location = new System.Drawing.Point(195, 114);
-            this.buttonGetFactTable.Name = "buttonGetFactTable";
-            this.buttonGetFactTable.Size = new System.Drawing.Size(75, 66);
-            this.buttonGetFactTable.TabIndex = 13;
-            this.buttonGetFactTable.Text = "Populate Fact Table";
-            this.buttonGetFactTable.UseVisualStyleBackColor = true;
-            this.buttonGetFactTable.Click += new System.EventHandler(this.buttonGetFactTable_Click);
+            chartArea4.Name = "ChartArea1";
+            this.chartBar.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chartBar.Legends.Add(legend4);
+            this.chartBar.Location = new System.Drawing.Point(79, 56);
+            this.chartBar.Name = "chartBar";
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chartBar.Series.Add(series4);
+            this.chartBar.Size = new System.Drawing.Size(300, 300);
+            this.chartBar.TabIndex = 1;
+            this.chartBar.Text = "chart1";
+            // 
+            // buttonLoadData
+            // 
+            this.buttonLoadData.Location = new System.Drawing.Point(6, 6);
+            this.buttonLoadData.Name = "buttonLoadData";
+            this.buttonLoadData.Size = new System.Drawing.Size(75, 23);
+            this.buttonLoadData.TabIndex = 0;
+            this.buttonLoadData.Text = "Load Data";
+            this.buttonLoadData.UseVisualStyleBackColor = true;
+            this.buttonLoadData.Click += new System.EventHandler(this.buttonLoadData_Click);
+            // 
+            // destinationDatabaseDataSet
+            // 
+            this.destinationDatabaseDataSet.DataSetName = "DestinationDatabaseDataSet";
+            this.destinationDatabaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // destinationDatabaseDataSetBindingSource
+            // 
+            this.destinationDatabaseDataSetBindingSource.DataSource = this.destinationDatabaseDataSet;
+            this.destinationDatabaseDataSetBindingSource.Position = 0;
             // 
             // Form1
             // 
@@ -211,6 +296,11 @@
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartPie)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -231,6 +321,12 @@
         private System.Windows.Forms.ListBox listBoxDatesFromDbNamed;
         private System.Windows.Forms.Button buttonGetFromDb;
         private System.Windows.Forms.Button buttonGetFactTable;
+        private System.Windows.Forms.Button buttonLoadData;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartPie;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartBar;
+        private System.Windows.Forms.ComboBox comboBoxWeek;
+        private DestinationDatabaseDataSet destinationDatabaseDataSet;
+        private System.Windows.Forms.BindingSource destinationDatabaseDataSetBindingSource;
     }
 }
 
