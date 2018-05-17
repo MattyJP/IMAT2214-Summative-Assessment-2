@@ -20,7 +20,7 @@ namespace GITTest
         }
 
 
-        private void GetDates_Click(object sender, EventArgs e)
+        private void buttonGetDates_Click(object sender, EventArgs e)
         {
             //Create a list to store the dates
             List<string> Dates = new List<string>();
@@ -45,6 +45,8 @@ namespace GITTest
                     Dates.Add(reader[0].ToString());
                     Dates.Add(reader[1].ToString());
                 }
+                //Disables the button after use as the data is already taken
+                buttonGetDates.Enabled = false;
             }
 
             using (OleDbConnection connection = new OleDbConnection(connectionStringSet2))
@@ -132,6 +134,8 @@ namespace GITTest
             {
                 splitProducts(product);
             }
+            //Disables the button after use as the data is already taken
+            buttonGetProducts.Enabled = false;
         }
 
         private void buttonGetCustomers_Click(object sender, EventArgs e)
@@ -186,6 +190,8 @@ namespace GITTest
             {
                 splitCustomers(customer);
             }
+            //Disables the button after use as the data is already taken
+            buttonGetCustomers.Enabled = false;
         }
 
         private void splitDates(string date)
@@ -613,6 +619,8 @@ namespace GITTest
                                 //Insert the line
                                 int recordsAffected = insertCommand.ExecuteNonQuery();
                                 Console.WriteLine("Records affected: " + recordsAffected);
+                                //Disables the button after use as the fact table is already populated
+                                buttonGetFactTable.Enabled = false;
                             }
                             catch (Exception)
                             {
