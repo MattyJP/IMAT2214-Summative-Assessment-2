@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.buttonGetDates = new System.Windows.Forms.Button();
             this.listBoxDates = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -43,10 +47,14 @@
             this.listBoxProducts = new System.Windows.Forms.ListBox();
             this.buttonGetProducts = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.barChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnLoadData = new System.Windows.Forms.Button();
+            this.lineChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lineChart)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonGetDates
@@ -195,6 +203,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lineChart);
+            this.tabPage2.Controls.Add(this.barChart);
             this.tabPage2.Controls.Add(this.btnLoadData);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -203,6 +213,19 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // barChart
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.barChart.ChartAreas.Add(chartArea2);
+            this.barChart.Location = new System.Drawing.Point(27, 56);
+            this.barChart.Name = "barChart";
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.barChart.Series.Add(series2);
+            this.barChart.Size = new System.Drawing.Size(300, 300);
+            this.barChart.TabIndex = 2;
+            this.barChart.Text = "barChart";
             // 
             // btnLoadData
             // 
@@ -213,6 +236,20 @@
             this.btnLoadData.Text = "Load Data";
             this.btnLoadData.UseVisualStyleBackColor = true;
             this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
+            // 
+            // lineChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.lineChart.ChartAreas.Add(chartArea1);
+            this.lineChart.Location = new System.Drawing.Point(573, 56);
+            this.lineChart.Name = "lineChart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Name = "Series1";
+            this.lineChart.Series.Add(series1);
+            this.lineChart.Size = new System.Drawing.Size(300, 300);
+            this.lineChart.TabIndex = 3;
+            this.lineChart.Text = "lineChart";
             // 
             // Form1
             // 
@@ -225,6 +262,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.barChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lineChart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -246,6 +285,8 @@
         private System.Windows.Forms.Button buttonGetFromDb;
         private System.Windows.Forms.Button buttonGetFactTable;
         private System.Windows.Forms.Button btnLoadData;
+        private System.Windows.Forms.DataVisualization.Charting.Chart barChart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart lineChart;
     }
 }
 

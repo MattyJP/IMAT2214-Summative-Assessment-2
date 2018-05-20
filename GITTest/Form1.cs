@@ -727,14 +727,13 @@ namespace GITTest
             //This is a hardcoded week - the lowest grade.
             //Ideally this range would come from your database or elsewhere to allow the user to pick which
             //dates they want to see.
-            List<string> dateList = new List<string>(new string[] {"06/01/2014", "05/08/1996", "02/04/1999"  });
+            List<string> dateList = new List<string>(new string[] {"06/01/2014", "07/01/2014", "08/01/2014","09/01/2014", "10/01/2014", "11/01/2014", "12/01/2014"   });
             //I need somewhere to hold the information pulled from the database! This is an empty
             //dictionary.
             //I am using a dictionary as I can then manually set my own "key" so rather than it being
             //accessed through[0], [1] ect, i can access it via the date.
             //The dictionary type is string, int - date, number of sales.
             Dictionary<string, int> salesCount = new Dictionary<string, int>();
-
 
             //create a connection to the MDF file. we only need this once so its outsied of the loop
             string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
@@ -747,7 +746,8 @@ namespace GITTest
                     //open the SqlConnection
                     myConnection.Open();
                     //the following code uses an SqlCommand based on the SQLConnection.
-                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable JOIN Time " + "ON FactTable.timeId WHERE Time.date = @date; ", myConnection);
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable JOIN Time " + 
+                        "ON FactTable.timeId = Time.timeId WHERE Time.date = @date; ", myConnection);
                     command.Parameters.Add(new SqlParameter("date", date));
 
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -770,8 +770,19 @@ namespace GITTest
                     }
                 }
             }
+            //End of foreach Loop. Should have a filled array
+            
+            //building the Pie Chart:
+            lineChart.DataSource = salesCount;
+            lineChart.Series[0].XValueMember = "Key";
+            lineChart.Series[0].YValueMembers = "Value";
+            lineChart.DataBind();
+            
+            //building a bar chart:
+            barChart.DataSource = salesCount;
+            barChart.Series[0].XValueMember = "Key";
+            barChart.Series[0].YValueMembers = "Value";
+            barChart.DataBind();
         }
     }
 }
-//End of foreach Loop. Should have a filled array
-
