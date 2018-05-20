@@ -43,8 +43,10 @@
             this.listBoxProducts = new System.Windows.Forms.ListBox();
             this.buttonGetProducts = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnLoadData = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonGetDates
@@ -193,6 +195,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnLoadData);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -200,6 +203,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnLoadData
+            // 
+            this.btnLoadData.Location = new System.Drawing.Point(6, 6);
+            this.btnLoadData.Name = "btnLoadData";
+            this.btnLoadData.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadData.TabIndex = 0;
+            this.btnLoadData.Text = "Load Data";
+            this.btnLoadData.UseVisualStyleBackColor = true;
+            this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
             // 
             // Form1
             // 
@@ -211,6 +224,7 @@
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -231,6 +245,7 @@
         private System.Windows.Forms.ListBox listBoxDatesFromDbNamed;
         private System.Windows.Forms.Button buttonGetFromDb;
         private System.Windows.Forms.Button buttonGetFactTable;
+        private System.Windows.Forms.Button btnLoadData;
     }
 }
 
