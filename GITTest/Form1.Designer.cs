@@ -40,9 +40,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.buttonGetFactTable = new System.Windows.Forms.Button();
             this.buttonGetDates = new System.Windows.Forms.Button();
-            this.listBoxDates = new System.Windows.Forms.ListBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listBoxFactTableFromDbNamed = new System.Windows.Forms.ListBox();
             this.listBoxCustomersFromDbNamed = new System.Windows.Forms.ListBox();
             this.listBoxProductsFromDbNamed = new System.Windows.Forms.ListBox();
@@ -61,9 +58,6 @@
             this.buttonLoadData = new System.Windows.Forms.Button();
             this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
             this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.listBoxCustomers = new System.Windows.Forms.ListBox();
-            this.listBoxProducts = new System.Windows.Forms.ListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
