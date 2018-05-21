@@ -633,7 +633,7 @@ namespace GITTest
             }
         }
 
-            private int GetTimeId(string dbDate)
+        private int GetTimeId(string dbDate)
         {
             //Create a variable to store the time ID
             int timeId = 0;
@@ -724,10 +724,11 @@ namespace GITTest
 
         private void btnLoadData_Click(object sender, EventArgs e)
         {
-            //This is a hardcoded week - the lowest grade.
+
             //Ideally this range would come from your database or elsewhere to allow the user to pick which
             //dates they want to see.
-            List<string> dateList = new List<string>(new string[] {"06/01/2014", "07/01/2014", "08/01/2014","09/01/2014", "10/01/2014", "11/01/2014", "12/01/2014"   });
+            List<string> dateList = new List<string>(new string[] { "06/01/2014", "07/01/2014", "08/01/2014", "09/01/2014", "10/01/2014", "11/01/2014", "12/01/2014" });
+
             //I need somewhere to hold the information pulled from the database! This is an empty
             //dictionary.
             //I am using a dictionary as I can then manually set my own "key" so rather than it being
@@ -741,48 +742,60 @@ namespace GITTest
             //run this code once for each date in my list - in my case 7 times
             foreach (string date in dateList)
             {
-                using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
                 {
-                    //open the SqlConnection
-                    myConnection.Open();
-                    //the following code uses an SqlCommand based on the SQLConnection.
-                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable JOIN Time " + 
-                        "ON FactTable.timeId = Time.timeId WHERE Time.date = @date; ", myConnection);
-                    command.Parameters.Add(new SqlParameter("date", date));
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
                     {
-                        //if there are rows, it means there were sales
-                        if (reader.HasRows)
+                   
+                        //open the SqlConnection
+                        myConnection.Open();
+                        //the following code uses an SqlCommand based on the SQLConnection.
+                        SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable JOIN Time " +
+                            "ON FactTable.timeId = Time.timeId WHERE Time.date = @date; ", myConnection);
+                        command.Parameters.Add(new SqlParameter("date", date));
+                        //Split the date down and assign it to variables for later use
+                        string[] arrayDate = date.Split('/');
+                        int year = Convert.ToInt32(arrayDate[2]);
+                        int month = Convert.ToInt32(arrayDate[1]);
+                        int day = Convert.ToInt32(arrayDate[0]);
+
+                        DateTime dateTime = new DateTime(year, month, day);
+                        
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            while (reader.Read())
+                            //if there are rows, it means there were sales
+                            if (reader.HasRows)
                             {
-                                //this line adds a dictionary item with the key if data, and the value being the sales number. 
-                                //i could accedd this after by doing: int numberOfSales = salesCount["06/01/2014"];
-                                salesCount.Add(date, Int32.Parse(reader["SalesNumber"].ToString()));
+                                while (reader.Read())
+                                {
+                                    //this line adds a dictionary item with the key if data, and the value being the sales number. 
+                                    //i could access this after by doing: int numberOfSales = salesCount["06/01/2014"];
+                                    salesCount.Add(date, Int32.Parse(reader["SalesNumber"].ToString()));
+                                    Console.WriteLine("Data Exists!");
+                                }
+                            }
+                            //if there are no rows it means there were 0 sales, so we need to handle this!
+                            else
+                            {
+                                salesCount.Add(date, 0);
+                                Console.WriteLine("No Sales");
                             }
                         }
-                        //if there are no rows it means there were 0 sales, so we need to handle this!
-                        else
-                        {
-                            salesCount.Add(date, 0);
-                        }
                     }
-                }
-            }
+                }         
             //End of foreach Loop. Should have a filled array
-            
-            //building the Pie Chart:
+
+            //building the line Chart:
             lineChart.DataSource = salesCount;
             lineChart.Series[0].XValueMember = "Key";
             lineChart.Series[0].YValueMembers = "Value";
             lineChart.DataBind();
-            
+
             //building a bar chart:
             barChart.DataSource = salesCount;
             barChart.Series[0].XValueMember = "Key";
             barChart.Series[0].YValueMembers = "Value";
             barChart.DataBind();
+            }
         }
     }
 }
