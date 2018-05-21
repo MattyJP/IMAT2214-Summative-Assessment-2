@@ -689,6 +689,8 @@ namespace GITTest
 
             //Enable the comboBox
             comboBoxWeek.Enabled = true;
+            //Enable the label
+            labelWeek.Enabled = true;
 
         }
 
