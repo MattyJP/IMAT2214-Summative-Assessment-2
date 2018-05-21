@@ -24,8 +24,6 @@ namespace GITTest
         {
             //Create a list to store the dates
             List<string> Dates = new List<string>();
-            //Clear the listbox of existing contents
-            listBoxDates.Items.Clear();
 
             //Create the database string for Set 1 and Set 2
             string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
@@ -85,15 +83,13 @@ namespace GITTest
                 splitDates(date);
             }
             //Disables the button after use as the data is already taken
-            btnGetDates.Enabled = false;
+            buttonGetDates.Enabled = false;
         }
 
         private void buttonGetProducts_Click(object sender, EventArgs e)
         {
             //Create a list to store the products
             List<string> Products = new List<string>();
-            //Clear the listbox of existing contents
-            listBoxProducts.Items.Clear();
 
             //Create the database string for Set 1 and Set 2
             string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
@@ -144,8 +140,6 @@ namespace GITTest
         {
             //Create a list to store the customers
             List<string> Customers = new List<string>();
-            //Clear the listbox of existing contents
-            listBoxCustomers.Items.Clear();
 
             //Create the database string for Set 1 and Set 2
             string connectionStringSet1 = Properties.Settings.Default.Data_set_1ConnectionString;
