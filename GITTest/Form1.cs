@@ -718,6 +718,10 @@ namespace GITTest
             return customerId;
         }
 
+        ///
+        /// END OF TAB 1
+        /// 
+        
         private void buttonLoadData_Click(object sender, EventArgs e)
         {
             //Add the Week fields from the Time dimension to the combo box
@@ -777,6 +781,8 @@ namespace GITTest
             List<string> Dates = new List<string>();
             //Create a list to store the dates found matching the week number
             List<string> Categories = new List<string>();
+            //Create a list to store the departments found. 
+            List<string> Departments = new List<string>();
             //Dictionary to store the sales count, matching a date to a value
             Dictionary<string, int> salesCount = new Dictionary<string, int>();
             //Dictionary to store the sales count, matching a date to a value
@@ -794,6 +800,8 @@ namespace GITTest
                 SqlCommand salesCommand = new SqlCommand("SELECT date FROM Time WHERE weekNumber=@weekNumber", myConnection);
                 //Obtain the category names
                 SqlCommand categoryCommand = new SqlCommand("SELECT DISTINCT category FROM Product", myConnection);
+                //obtain the department names
+                //SqlCommand departmentCommand = new SqlCommand("SELECT  ")
                 //Add the week number parameter
                 salesCommand.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
                 //Run the command and read the results
@@ -826,7 +834,7 @@ namespace GITTest
                 //Grab the first item (we know this is the date) and add it to our new list
                 DatesFormatted.Add(dates[0]);
             }
-
+            /// BAR CHART
             //Run this code for each date in the list in order to populate the bar chart, focusing on overall daily sales per business week
             foreach (string date in DatesFormatted)
             {
@@ -865,7 +873,7 @@ namespace GITTest
 
                 }
             }
-
+            /// Pie Chart
             //Run this code for each category in the list in order to populate the pie chart, focusing on weekly sales per product category
             foreach (string category in Categories)
             {
@@ -898,8 +906,13 @@ namespace GITTest
                             salesCountCategoryWeekly.Add(category, 0);
                         }
                     }
-
                 }
+
+                ///Line Graph
+                //Run this code in order to populate the line graph, to display all profits of all weeks by department.
+
+
+
 
                 //Build the bar chart
                 chartBar.DataSource = salesCount;
@@ -919,6 +932,31 @@ namespace GITTest
                 //chartLine.Series[0].YValueMembers = "Value";
                 chartLine.DataBind();
             }
+        }
+
+        private void buttonSales_Click(object sender, EventArgs e)
+        {
+            List<string> Segments = new List<string>();
+            //clear the listbox
+            listBoxSales.Items.Clear();
+
+            //Create the database string
+            string connectionString = Properties.Settings.Default.Data_set_1ConnectionString;
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                OleDbCommand getSegments = new OleDbCommand("SELECT        [Order Date], Segment, Sales, Category, [Customer Name], [Sub-Category], Profit FROM Sheet1", connection);
+
+                reader = getSegments.ExecuteReader();
+                while (reader.Read())
+                {
+                    Segments.Add(reader[0].ToString());
+                    Segments.Add(reader[1].ToString());
+                }
+            }
+            listBoxSales.DataSource = Segments;
         }
     }
 }
