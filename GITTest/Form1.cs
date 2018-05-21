@@ -65,6 +65,8 @@ namespace GITTest
             {
                 splitDates(date);
             }
+            //Disables the button after use as the data is already taken
+            btnGetDates.Enabled = false;
         }
 
         private void buttonGetProducts_Click(object sender, EventArgs e)
@@ -99,6 +101,8 @@ namespace GITTest
             {
                 splitProducts(product);
             }
+            //Disables the button after use as the data is already taken
+            btnGetProducts.Enabled = false;
         }
 
         private void buttonGetCustomers_Click(object sender, EventArgs e)
@@ -135,6 +139,8 @@ namespace GITTest
             {
                 splitCustomers(customer);
             }
+            //Disables the button after use as the data is already taken
+            btnGetCustomers.Enabled = false;
         }
 
         private void splitDates(string date)
@@ -415,6 +421,8 @@ namespace GITTest
                         DestinationFactTableNamed.Add("No Data Present");
                     }
                 }
+                //Disables the button after use as the data is already taken
+                btnGetFromDb.Enabled = false;
             }
 
             //Bind the listbox to the list
@@ -453,6 +461,8 @@ namespace GITTest
             {
                 populateFactTable(order);
             }
+            //Disables the button after use as the data is already taken
+            btnGetFactTable.Enabled = false;
         }
 
         private void populateFactTable(string order)
