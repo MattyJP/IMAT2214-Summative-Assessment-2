@@ -912,6 +912,12 @@ namespace GITTest
                 chartPie.Series[0].XValueMember = "Key";
                 chartPie.Series[0].YValueMembers = "Value";
                 chartPie.DataBind();
+
+                //Build the Line Chart
+                chartLine.DataSource = salesCountCategoryWeekly;
+                chartLine.Series[0].XValueMember = "Key";
+                //chartLine.Series[0].YValueMembers = "Value";
+                chartLine.DataBind();
             }
         }
     }

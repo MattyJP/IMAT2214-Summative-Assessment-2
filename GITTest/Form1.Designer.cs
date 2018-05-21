@@ -29,17 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBoxDates = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.buttonGetFactTable = new System.Windows.Forms.Button();
-            this.buttonGetDates = new System.Windows.Forms.Button();
             this.listBoxFactTableFromDbNamed = new System.Windows.Forms.ListBox();
             this.listBoxCustomersFromDbNamed = new System.Windows.Forms.ListBox();
             this.listBoxProductsFromDbNamed = new System.Windows.Forms.ListBox();
@@ -49,6 +51,7 @@
             this.buttonGetCustomers = new System.Windows.Forms.Button();
             this.listBoxProducts = new System.Windows.Forms.ListBox();
             this.buttonGetProducts = new System.Windows.Forms.Button();
+            this.buttonGetDates = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.labelWeek = new System.Windows.Forms.Label();
             this.labelLoadData = new System.Windows.Forms.Label();
@@ -58,6 +61,7 @@
             this.buttonLoadData = new System.Windows.Forms.Button();
             this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
             this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.chartLine = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -65,17 +69,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSetBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLine)).BeginInit();
             this.SuspendLayout();
-            // 
-            // buttonGetDates
-            // 
-            this.buttonGetDates.Location = new System.Drawing.Point(18, 6);
-            this.buttonGetDates.Name = "buttonGetDates";
-            this.buttonGetDates.Size = new System.Drawing.Size(75, 23);
-            this.buttonGetDates.TabIndex = 2;
-            this.buttonGetDates.Text = "Get Dates";
-            this.buttonGetDates.UseVisualStyleBackColor = true;
-            this.buttonGetDates.Click += new System.EventHandler(this.buttonGetDates_Click);
             // 
             // listBoxDates
             // 
@@ -160,7 +155,7 @@
             this.listBoxDatesFromDbNamed.Name = "listBoxDatesFromDbNamed";
             this.listBoxDatesFromDbNamed.Size = new System.Drawing.Size(502, 108);
             this.listBoxDatesFromDbNamed.TabIndex = 9;
-            //
+            // 
             // buttonGetFromDb
             // 
             this.buttonGetFromDb.Location = new System.Drawing.Point(379, 35);
@@ -211,8 +206,19 @@
             this.buttonGetProducts.UseVisualStyleBackColor = true;
             this.buttonGetProducts.Click += new System.EventHandler(this.buttonGetProducts_Click);
             // 
+            // buttonGetDates
+            // 
+            this.buttonGetDates.Location = new System.Drawing.Point(18, 6);
+            this.buttonGetDates.Name = "buttonGetDates";
+            this.buttonGetDates.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetDates.TabIndex = 2;
+            this.buttonGetDates.Text = "Get Dates";
+            this.buttonGetDates.UseVisualStyleBackColor = true;
+            this.buttonGetDates.Click += new System.EventHandler(this.buttonGetDates_Click);
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.chartLine);
             this.tabPage2.Controls.Add(this.labelWeek);
             this.tabPage2.Controls.Add(this.labelLoadData);
             this.tabPage2.Controls.Add(this.comboBoxWeek);
@@ -258,34 +264,34 @@
             // 
             // chartPie
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartPie.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartPie.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            this.chartPie.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartPie.Legends.Add(legend2);
             this.chartPie.Location = new System.Drawing.Point(322, 127);
             this.chartPie.Name = "chartPie";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartPie.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartPie.Series.Add(series2);
             this.chartPie.Size = new System.Drawing.Size(300, 300);
             this.chartPie.TabIndex = 2;
             this.chartPie.Text = "chart2";
             // 
             // chartBar
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartBar.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chartBar.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.chartBar.ChartAreas.Add(chartArea3);
+            legend3.Enabled = false;
+            legend3.Name = "Legend1";
+            this.chartBar.Legends.Add(legend3);
             this.chartBar.Location = new System.Drawing.Point(27, 105);
             this.chartBar.Name = "chartBar";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartBar.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chartBar.Series.Add(series3);
             this.chartBar.Size = new System.Drawing.Size(300, 300);
             this.chartBar.TabIndex = 1;
             this.chartBar.Text = "chart1";
@@ -309,35 +315,23 @@
             // 
             this.destinationDatabaseDataSetBindingSource.DataSource = this.destinationDatabaseDataSet;
             this.destinationDatabaseDataSetBindingSource.Position = 0;
-            // listBoxProducts
             // 
-            this.listBoxProducts.FormattingEnabled = true;
-            this.listBoxProducts.HorizontalScrollbar = true;
-            this.listBoxProducts.Location = new System.Drawing.Point(18, 165);
-            this.listBoxProducts.Name = "listBoxProducts";
-            this.listBoxProducts.ScrollAlwaysVisible = true;
-            this.listBoxProducts.Size = new System.Drawing.Size(120, 95);
-            this.listBoxProducts.TabIndex = 5;
+            // chartLine
             // 
-            // buttonGetProducts
-            // 
-            this.buttonGetProducts.Location = new System.Drawing.Point(18, 136);
-            this.buttonGetProducts.Name = "buttonGetProducts";
-            this.buttonGetProducts.Size = new System.Drawing.Size(97, 23);
-            this.buttonGetProducts.TabIndex = 4;
-            this.buttonGetProducts.Text = "Get Products";
-            this.buttonGetProducts.UseVisualStyleBackColor = true;
-            this.buttonGetProducts.Click += new System.EventHandler(this.buttonGetProducts_Click);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(934, 526);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            chartArea1.Name = "ChartArea1";
+            this.chartLine.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartLine.Legends.Add(legend1);
+            this.chartLine.Location = new System.Drawing.Point(614, 105);
+            this.chartLine.Name = "chartLine";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartLine.Series.Add(series1);
+            this.chartLine.Size = new System.Drawing.Size(300, 300);
+            this.chartLine.TabIndex = 6;
+            this.chartLine.Text = "chart1";
             // 
             // Form1
             // 
@@ -355,6 +349,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.destinationDatabaseDataSetBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLine)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -383,6 +378,7 @@
         private System.Windows.Forms.BindingSource destinationDatabaseDataSetBindingSource;
         private System.Windows.Forms.Label labelWeek;
         private System.Windows.Forms.Label labelLoadData;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartLine;
     }
 }
 
