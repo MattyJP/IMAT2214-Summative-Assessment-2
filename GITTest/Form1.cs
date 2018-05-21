@@ -389,6 +389,7 @@ namespace GITTest
             List<string> DestinationProductsNamed = new List<string>();
             List<string> DestinationCustomersNamed = new List<string>();
             List<string> DestinationFactTableNamed = new List<string>();
+            List<string> DestinationSalesNamed = new List<string>();
 
             //Create the database string
             string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
@@ -401,7 +402,7 @@ namespace GITTest
                 SqlCommand productCommand = new SqlCommand("SELECT category, subcategory, productName from Product", connection);
                 SqlCommand customerCommand = new SqlCommand("SELECT customerName, country, city, state, postalCode, region, reference from Customer", connection);
                 SqlCommand factTableCommand = new SqlCommand("SELECT productId, timeId, customerId, value, discount, profit, quantity from FactTable", connection);
-
+                SqlCommand segmentCommand = new SqlCommand("SELECT orderDate, segment, sales, category, customerName, Sub-Category, profit FROM Sheet1", connection );
                 using (SqlDataReader reader = timeCommand.ExecuteReader())
                 {
                     //If there are rows, it means the date exists so change the exists variable
@@ -468,6 +469,22 @@ namespace GITTest
                         DestinationFactTableNamed.Add("No Data Present");
                     }
                 }
+                using (SqlDataReader reader = segmentCommand.ExecuteReader())
+                {
+                    //If there are rows, it means the date exists so change the exists variable
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            DestinationSalesNamed.Add("Product ID: " + reader["productId"].ToString() + ", Time ID: " + reader["timeId"].ToString() + ", Customer ID: " + reader["customerId"].ToString() + ", Value: " +
+                                reader["value"].ToString() + ", Discount: " + reader["discount"].ToString() + ", Profit: " + reader["profit"].ToString() + ", Quantity: " + reader["quantity"].ToString());
+                        }
+                    }
+                    else
+                    {
+                        DestinationSalesNamed.Add("No Data Present");
+                    }
+                }
             }
 
             //Bind the listbox to the list
@@ -475,6 +492,7 @@ namespace GITTest
             listBoxProductsFromDbNamed.DataSource = DestinationProductsNamed;
             listBoxCustomersFromDbNamed.DataSource = DestinationCustomersNamed;
             listBoxFactTableFromDbNamed.DataSource = DestinationFactTableNamed;
+            listBoxSalesFromDbNamed.DataSource = DestinationSalesNamed;
         }
 
         private void buttonGetFactTable_Click(object sender, EventArgs e)
@@ -947,7 +965,7 @@ namespace GITTest
             {
                 connection.Open();
                 OleDbDataReader reader = null;
-                OleDbCommand getSegments = new OleDbCommand("SELECT        [Order Date], Segment, Sales, Category, [Customer Name], [Sub-Category], Profit FROM Sheet1", connection);
+                OleDbCommand getSegments = new OleDbCommand("SELECT [Order Date], Segment, Sales, Category, [Customer Name], [Sub-Category], Profit FROM Sheet1", connection);
 
                 reader = getSegments.ExecuteReader();
                 while (reader.Read())
@@ -956,8 +974,39 @@ namespace GITTest
                     Segments.Add(reader[1].ToString());
                 }
             }
+
+            //Create a new list for the formatted data 
+            List<String> SegmentsFormatted = new List<string>();
+
+            foreach (string date in Segments)
+            {
+                //split the string on whitespace and remove anything thats blank.
+                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+                //grab the first item (we know this is the date) and add it to our new list.
+                SegmentsFormatted.Add(dates[0]);
+            }
+
+            //Bind the ListBox to the List
             listBoxSales.DataSource = Segments;
+            //Splits dates down to variables
+            //splitSegments(SegmentsFormatted[0]);
+            //Disables the button after use as the data is already taken
+            buttonSales.Enabled = false;
         }
+        /*
+        private void splitSegments(string segments)
+        {
+            //split the segment list entry down. 
+            string[] arraySegment = segments.Split('_');
+            string segmentName = arraySegment[0];
+            string orderDate = arraySegment[1];
+            string segment = arraySegment[2];
+            string subCategory = arraySegment[3];
+            string sales = arraySegment[4];
+            string category = arraySegment[5];
+            string profit = arraySegment[6];
+
+        }*/
     }
 }
 
