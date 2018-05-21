@@ -40,6 +40,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnGetFactTable = new System.Windows.Forms.Button();
+            this.buttonGetDates = new System.Windows.Forms.Button();
+            this.listBoxDates = new System.Windows.Forms.ListBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonGetFactTable = new System.Windows.Forms.Button();
             this.listBoxFactTableFromDbNamed = new System.Windows.Forms.ListBox();
             this.listBoxCustomersFromDbNamed = new System.Windows.Forms.ListBox();
             this.listBoxProductsFromDbNamed = new System.Windows.Forms.ListBox();
@@ -58,6 +63,12 @@
             this.buttonLoadData = new System.Windows.Forms.Button();
             this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
             this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.buttonGetFromDb = new System.Windows.Forms.Button();
+            this.listBoxCustomers = new System.Windows.Forms.ListBox();
+            this.buttonGetCustomers = new System.Windows.Forms.Button();
+            this.listBoxProducts = new System.Windows.Forms.ListBox();
+            this.buttonGetProducts = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -76,6 +87,15 @@
             this.btnGetDates.Text = "GetDates";
             this.btnGetDates.UseVisualStyleBackColor = true;
             this.btnGetDates.Click += new System.EventHandler(this.GetDates_Click);
+            // buttonGetDates
+            // 
+            this.buttonGetDates.Location = new System.Drawing.Point(18, 6);
+            this.buttonGetDates.Name = "buttonGetDates";
+            this.buttonGetDates.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetDates.TabIndex = 2;
+            this.buttonGetDates.Text = "Get Dates";
+            this.buttonGetDates.UseVisualStyleBackColor = true;
+            this.buttonGetDates.Click += new System.EventHandler(this.buttonGetDates_Click);
             // 
             // listBoxDates
             // 
@@ -110,6 +130,8 @@
             this.tabPage1.Controls.Add(this.listBoxProducts);
             this.tabPage1.Controls.Add(this.btnGetProducts);
             this.tabPage1.Controls.Add(this.btnGetDates);
+            this.tabPage1.Controls.Add(this.buttonGetProducts);
+            this.tabPage1.Controls.Add(this.buttonGetDates);
             this.tabPage1.Controls.Add(this.listBoxDates);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -128,6 +150,15 @@
             this.btnGetFactTable.Text = "Populate Fact Table";
             this.btnGetFactTable.UseVisualStyleBackColor = true;
             this.btnGetFactTable.Click += new System.EventHandler(this.buttonGetFactTable_Click);
+            // buttonGetFactTable
+            // 
+            this.buttonGetFactTable.Location = new System.Drawing.Point(195, 114);
+            this.buttonGetFactTable.Name = "buttonGetFactTable";
+            this.buttonGetFactTable.Size = new System.Drawing.Size(75, 66);
+            this.buttonGetFactTable.TabIndex = 13;
+            this.buttonGetFactTable.Text = "Populate Fact Table";
+            this.buttonGetFactTable.UseVisualStyleBackColor = true;
+            this.buttonGetFactTable.Click += new System.EventHandler(this.buttonGetFactTable_Click);
             // 
             // listBoxFactTableFromDbNamed
             // 
@@ -170,6 +201,15 @@
             this.btnGetFromDb.Text = "Get From Db";
             this.btnGetFromDb.UseVisualStyleBackColor = true;
             this.btnGetFromDb.Click += new System.EventHandler(this.buttonGetFromDb_Click);
+            // buttonGetFromDb
+            // 
+            this.buttonGetFromDb.Location = new System.Drawing.Point(379, 35);
+            this.buttonGetFromDb.Name = "buttonGetFromDb";
+            this.buttonGetFromDb.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetFromDb.TabIndex = 8;
+            this.buttonGetFromDb.Text = "Get From Db";
+            this.buttonGetFromDb.UseVisualStyleBackColor = true;
+            this.buttonGetFromDb.Click += new System.EventHandler(this.buttonGetFromDb_Click);
             // 
             // listBoxCustomers
             // 
@@ -309,6 +349,35 @@
             // 
             this.destinationDatabaseDataSetBindingSource.DataSource = this.destinationDatabaseDataSet;
             this.destinationDatabaseDataSetBindingSource.Position = 0;
+            // listBoxProducts
+            // 
+            this.listBoxProducts.FormattingEnabled = true;
+            this.listBoxProducts.HorizontalScrollbar = true;
+            this.listBoxProducts.Location = new System.Drawing.Point(18, 165);
+            this.listBoxProducts.Name = "listBoxProducts";
+            this.listBoxProducts.ScrollAlwaysVisible = true;
+            this.listBoxProducts.Size = new System.Drawing.Size(120, 95);
+            this.listBoxProducts.TabIndex = 5;
+            // 
+            // buttonGetProducts
+            // 
+            this.buttonGetProducts.Location = new System.Drawing.Point(18, 136);
+            this.buttonGetProducts.Name = "buttonGetProducts";
+            this.buttonGetProducts.Size = new System.Drawing.Size(97, 23);
+            this.buttonGetProducts.TabIndex = 4;
+            this.buttonGetProducts.Text = "Get Products";
+            this.buttonGetProducts.UseVisualStyleBackColor = true;
+            this.buttonGetProducts.Click += new System.EventHandler(this.buttonGetProducts_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(934, 526);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -332,6 +401,7 @@
 
         #endregion
         private System.Windows.Forms.Button btnGetDates;
+        private System.Windows.Forms.Button buttonGetDates;
         private System.Windows.Forms.ListBox listBoxDates;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
