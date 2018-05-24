@@ -725,16 +725,16 @@ namespace GITTest
             //Add the Week and Reference fields from the Time and Customer dimensions to the combo boxes
             BindDataWeek();
             BindDataRef();
+            //Make the labels above the graphs visible
+            labelChartBar.Visible = true;
+            labelChartPie.Visible = true;
+            labelChartBarRef.Visible = true;
+            //P12213188 - Render the Load Data button and label invisible (and disable the button)
+            buttonLoadData.Enabled = false;
+            buttonLoadData.Visible = false;
+            labelLoadData.Visible = false;
         }
-        private void buttonLoadByRef_Click(object sender, EventArgs e)
-        {
-            comboBoxWeek.Items.Clear();
-            comboBoxSearch.Items.Clear();
-            //Disable the comboBox
-            comboBoxWeek.Enabled = false;
-            comboBoxSearch.Enabled = true;
-            BindDataRef();
-        }
+
         public void BindDataRef()
         {
 
@@ -768,10 +768,12 @@ namespace GITTest
             }
             //Set the comboBox to default to the first entry - P12213188
             comboBoxSearch.SelectedIndex = 0;
-            //Enable the comboBox
+            //Enable the comboBox and render it visible
             comboBoxSearch.Enabled = true;
-            //Enable the label
-            labelSearch.Enabled = true;
+            comboBoxSearch.Visible = true;
+            //Enable the label and render it visible
+            labelCustReference.Enabled = true;
+            labelCustReference.Visible = true;
         }
         private void comboBoxSearch_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -789,7 +791,10 @@ namespace GITTest
             string reference = Convert.ToString(comboBoxSearch.SelectedItem);
 
             //Create an Int32 variable to store the week number - P12213188
-            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem);
+            //P12213188 - As the first week in the database is week 0, it is displayed as Week 1
+            //We subtract the 1 that was added, thus matching the original week number P12213188
+            //We do not use the selected index, as the displayed weeks may not be displayed in sequence as only weeks with data are shown
+            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem) - 1;
 
             //Create a list to store the dates found matching the week number
             List<string> Dates = new List<string>();
@@ -884,12 +889,13 @@ namespace GITTest
             //P12213188 - Check the value of totalSales afterward
             if (totalSales == 0)
             {
-                labelRefError.Text = "No sales for this customer segment this week!";
+                //If there are no sales all week, the error message is displayed indicating there are no sales for the week - P12213188
+                labelRefError.Visible = true; ;
             }
-            //P12213188 - If there are sales for at least one day in the week, make the error message blank
+            //P12213188 - If there are sales for at least one day in the week, make the error message invisible
             else
             {
-                labelRefError.Text = "";
+                labelRefError.Visible = false;
             }
 
             //Build the bar chart for the third chart - P12213188
@@ -933,16 +939,22 @@ namespace GITTest
 
             foreach (string week in Weeks)
             {
+                //Convert the week number to an Int32
+                //P12213188 - This also adds 1, as the first week in the database is classed as week 0
+                //With subsequent functions which check against the week number, this 1 is then subtracted to match the week number in the database - P12213188
+                Int32 weekNumber = Convert.ToInt32(week) + 1;
                 //Assign each week number to the comboBox
-                comboBoxWeek.Items.Add(week);
+                comboBoxWeek.Items.Add(weekNumber);
             }
 
             //Set the comboBox to default to the first entry - P12213188
             comboBoxWeek.SelectedIndex = 0;
-            //Enable the comboBox
-            comboBoxWeek.Enabled = true;      
-            //Enable the label
-            labelSearch.Enabled = true;
+            //Enable the comboBox and render it visible
+            comboBoxWeek.Enabled = true;
+            comboBoxWeek.Visible = true;      
+            //Enable the label and render it visible
+            labelWeek.Enabled = true;
+            labelWeek.Visible = true;
 
         }
         private void comboBoxWeek_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -953,9 +965,13 @@ namespace GITTest
 
             public void DisplayWeekCharts()
         {
-            // P12213188 - This function creates the charts displaying sales for each day in the business week, and for sales by product
-            //Create an Int32 variable to hold the week number
-            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem);
+            //P12213188 - This function creates the charts displaying sales for each day in the business week, and for sales by product
+
+            //Create an Int32 variable to store the week number - P12213188
+            //P12213188 - As the first week in the database is week 0, it is displayed as Week 1
+            //We subtract the 1 that was added, thus matching the original week number P12213188
+            //We do not use the selected index, as the displayed weeks may not be displayed in sequence as only weeks with data are shown
+            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem) - 1;
 
             //Create a list to store the dates found matching the week number
             List<string> Dates = new List<string>();
@@ -1100,6 +1116,31 @@ namespace GITTest
                 //Populate the third chart covering weekly sales for a customer segment - P12213188
                 DisplayReferenceChart();
             }
+        }
+
+        private void chartBarRef_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelWeek_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelRefError_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelCustReference_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
