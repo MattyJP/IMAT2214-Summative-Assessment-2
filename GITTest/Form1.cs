@@ -726,12 +726,12 @@ namespace GITTest
             //Disable the comboBox
 
             BindDataWeek();
-            
+
 
         }
         private void buttonLoadByRef_Click(object sender, EventArgs e)
         {
-           
+
             BindDataRef();
 
 
@@ -781,22 +781,24 @@ namespace GITTest
         }
         private void comboBoxSearch_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            //Create an Int32 variable to hold the week number
-            string reference = Convert.ToString(comboBoxSearch.SelectedItem);
+            //Create an string variable to hold the reference
+            string refStore = Convert.ToString(comboBoxSearch.SelectedItem);
 
             //Create a list to store the ref found matching the week number
             List<string> References = new List<string>();
             //Create a list to store the dates found matching the week number
             List<string> Dates = new List<string>();
             //Dictionary to store the ref count, matching a Reference to a value
-            Dictionary<string, int> salesCountRef = new Dictionary<string, int>();
+            Dictionary<string, int> salesCountRefWeekly = new Dictionary<string, int>();
             //Dictionary to store the sales count, matching a date to a value
             Dictionary<string, int> salesCountDates = new Dictionary<string, int>();
 
             //Create a connection to the MDF file
             string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+
             Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem);
-            string references = Convert.ToString(comboBoxSearch.SelectedItem);
+
+
             //Obtain the dates from the Customer database matching the week number
             using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
             {
@@ -805,7 +807,7 @@ namespace GITTest
                 //Obtain the dates
                 SqlCommand salesCommand = new SqlCommand("SELECT date FROM Time WHERE weekNumber = @weekNumber", myConnection);
                 //Obtain the reference names
-                SqlCommand ReferenceCommand = new SqlCommand("SELECT DISTINCT reference FROM Customer", myConnection);
+                SqlCommand referenceCommand = new SqlCommand("SELECT DISTINCT reference FROM Customer", myConnection);
                 //Add the week number parameter
                 salesCommand.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
                 //Run the command and read the results
@@ -818,7 +820,7 @@ namespace GITTest
                     }
                 }
                 //Run the command and read the results
-                using (SqlDataReader reader = ReferenceCommand.ExecuteReader())
+                using (SqlDataReader reader = referenceCommand.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -845,15 +847,48 @@ namespace GITTest
                 int month = Convert.ToInt32(arrayDate[1]);
                 int day = Convert.ToInt32(arrayDate[0]);
                 string dateFormatted = year + "-" + month + "-" + day;
-                            
+
                 using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+                {
+                    //Open the Sql connection
+                    myConnection.Open();
+                    //The following code use an Sql command based on the Sql connection
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Time ON FactTable.timeId = Time.timeId WHERE Time.date = @date; ", myConnection);
+                    //Add the date parameter
+                    command.Parameters.Add(new SqlParameter("date", dateFormatted));
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        //If there are rows, it means there were sales
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                salesCountDates.Add(date, Int32.Parse(reader["SalesNumber"].ToString()));
+                            }
+                        }
+                        //If there are no rows, it means there were 0 sales
+                        else
+                        {
+                            salesCountDates.Add(date, 0);
+                        }
+                    }
+                }
+
+
+                //string reference = Convert.ToString(comboBoxSearch.SelectedItem);
+                //Run this code for each category in the list in order to populate the pie chart, focusing on weekly sales per product category
+                foreach (string reference in References)
+                {
+                    using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
                     {
                         //Open the Sql connection
                         myConnection.Open();
                         //The following code use an Sql command based on the Sql connection
-                        SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Time ON FactTable.timeId = Time.timeId WHERE Time.date = @date; ", myConnection);
-                        //Add the date parameter
-                        command.Parameters.Add(new SqlParameter("date", dateFormatted));
+                        SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Customer ON FactTable.customerId = Customer.customerId INNER JOIN Time ON FactTable.timeId = Time.timeId WHERE Customer.reference = @reference AND Time.weekNumber = @weekNumber;", myConnection);
+                        //Add the parameters
+                        command.Parameters.Add(new SqlParameter("reference", reference));
+                        command.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -862,63 +897,31 @@ namespace GITTest
                             {
                                 while (reader.Read())
                                 {
-                                    salesCountDates.Add(reference, Int32.Parse(reader["SalesNumber"].ToString()));
+                                    //This line adds a dictionary item with the key of the category
+
+                                    salesCountRefWeekly.Add(reference, Int32.Parse(reader["SalesNumber"].ToString()));
                                 }
                             }
                             //If there are no rows, it means there were 0 sales
                             else
                             {
-                                salesCountDates.Add(date, 0);
+                                salesCountRefWeekly.Add(reference, 0);
                             }
                         }
                     }
+                    //Build the bar chart
+                    chartBar.DataSource = salesCountRefWeekly;
+                    chartBar.Series[0].XValueMember = "Key";
+                    chartBar.Series[0].YValueMembers = "Value";
+                    chartBar.DataBind();
 
-                    //Run this code for each category in the list in order to populate the pie chart, focusing on weekly sales per product category
-                    foreach (string reference in References)
-                    {
-                        using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
-                        {
-                            //Open the Sql connection
-                            myConnection.Open();
-                            //The following code use an Sql command based on the Sql connection
-                            SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Customer ON FactTable.customerId = Customer.customerId INNER JOIN Time ON FactTable.timeId = Time.timeId WHERE Customer.reference = @references AND Time.weekNumber = @weekNumber;", myConnection);
-                            //Add the parameters
-                            command.Parameters.Add(new SqlParameter("reference", reference));
-                            command.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
-
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-                                //If there are rows, it means there were sales
-                                if (reader.HasRows)
-                                {
-                                    while (reader.Read())
-                                    {
-                                        //This line adds a dictionary item with the key of the category, and the value being the sales number
-
-                                        salesCountRef.Add(reference, Int32.Parse(reader["SalesNumber"].ToString()));
-                                    }
-                                }
-                                //If there are no rows, it means there were 0 sales
-                                else
-                                {
-                                    salesCountRef.Add(reference, 0);
-                                }
-                            }
-                        }
-                        //Build the bar chart
-                        chartBar.DataSource = salesCountRef;
-                        chartBar.Series[0].XValueMember = "Key";
-                        chartBar.Series[0].YValueMembers = "Value";
-                        chartBar.DataBind();
-
-                        //Build the pie chart
-                        chartPie.DataSource = salesCountDates;
-                        chartPie.Series[0].XValueMember = "Key";
-                        chartPie.Series[0].YValueMembers = "Value";
-                        chartPie.DataBind();
-                    }
+                    //Build the pie chart
+                    chartPie.DataSource = salesCountDates;
+                    chartPie.Series[0].XValueMember = "Key";
+                    chartPie.Series[0].YValueMembers = "Value";
+                    chartPie.DataBind();
                 }
-            
+            }
         }
 
 
@@ -927,7 +930,7 @@ namespace GITTest
         {
 
             //Create a connection to the MDF file
-            string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+            string connectionStringDestination = GITTest.Properties.Settings.Default.DestinationDatabaseConnectionString;
 
             //Create a list to store the week numbers
             List<string> Weeks = new List<String>();
@@ -944,13 +947,13 @@ namespace GITTest
                 {
                     //If the week is valid (contains data)
                     if (reader.HasRows)
-                    { 
-                    while (reader.Read())
                     {
-                        //Add each distinct week number to the Weeks list
-                        Weeks.Add(reader.GetDecimal(0).ToString());
+                        while (reader.Read())
+                        {
+                            //Add each distinct week number to the Weeks list
+                            Weeks.Add(reader.GetDecimal(0).ToString());
+                        }
                     }
-                }
                 }
             }
 
@@ -961,7 +964,7 @@ namespace GITTest
             }
 
             //Enable the comboBox
-            comboBoxWeek.Enabled = true;      
+            comboBoxWeek.Enabled = true;
             //Enable the label
             labelSearch.Enabled = true;
 
@@ -981,7 +984,7 @@ namespace GITTest
             Dictionary<string, int> salesCountCategoryWeekly = new Dictionary<string, int>();
 
             //Create a connection to the MDF file
-            string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+            string connectionStringDestination = GITTest.Properties.Settings.Default.DestinationDatabaseConnectionString;
 
             //Obtain the dates from the Time database matching the week number
             using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
@@ -1060,7 +1063,6 @@ namespace GITTest
                             salesCount.Add(date, 0);
                         }
                     }
-
                 }
             }
 
@@ -1113,4 +1115,5 @@ namespace GITTest
         }
     }
 }
+
 
