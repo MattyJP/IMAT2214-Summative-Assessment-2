@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBoxDates = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -53,6 +53,8 @@
             this.buttonGetProducts = new System.Windows.Forms.Button();
             this.buttonGetDates = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.labelLoadData = new System.Windows.Forms.Label();
+            this.buttonLoadData = new System.Windows.Forms.Button();
             this.labelChartBarRef = new System.Windows.Forms.Label();
             this.labelChartPie = new System.Windows.Forms.Label();
             this.labelChartBar = new System.Windows.Forms.Label();
@@ -62,10 +64,8 @@
             this.comboBoxSearch = new System.Windows.Forms.ComboBox();
             this.comboBoxWeek = new System.Windows.Forms.ComboBox();
             this.labelWeek = new System.Windows.Forms.Label();
-            this.labelLoadData = new System.Windows.Forms.Label();
             this.chartPie = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartBar = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.buttonLoadData = new System.Windows.Forms.Button();
             this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
             this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
@@ -115,7 +115,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(989, 526);
+            this.tabPage1.Size = new System.Drawing.Size(930, 526);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -245,6 +245,28 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // labelLoadData
+            // 
+            this.labelLoadData.AutoSize = true;
+            this.labelLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLoadData.Location = new System.Drawing.Point(66, 32);
+            this.labelLoadData.Name = "labelLoadData";
+            this.labelLoadData.Size = new System.Drawing.Size(840, 20);
+            this.labelLoadData.TabIndex = 4;
+            this.labelLoadData.Text = "Click \"Load Data\" to initialise the dashboard! (Make sure you\'ve inserted all the" +
+    " data into the destination database first)";
+            // 
+            // buttonLoadData
+            // 
+            this.buttonLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonLoadData.Location = new System.Drawing.Point(388, 76);
+            this.buttonLoadData.Name = "buttonLoadData";
+            this.buttonLoadData.Size = new System.Drawing.Size(111, 49);
+            this.buttonLoadData.TabIndex = 0;
+            this.buttonLoadData.Text = "Load Data";
+            this.buttonLoadData.UseVisualStyleBackColor = true;
+            this.buttonLoadData.Click += new System.EventHandler(this.buttonLoadData_Click);
+            // 
             // labelChartBarRef
             // 
             this.labelChartBarRef.AutoSize = true;
@@ -292,17 +314,18 @@
             // 
             // chartBarRef
             // 
-            chartArea7.Name = "ChartArea1";
-            this.chartBarRef.ChartAreas.Add(chartArea7);
-            legend7.Enabled = false;
-            legend7.Name = "Legend1";
-            this.chartBarRef.Legends.Add(legend7);
+            chartArea1.Name = "ChartArea1";
+            this.chartBarRef.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chartBarRef.Legends.Add(legend1);
             this.chartBarRef.Location = new System.Drawing.Point(606, 66);
             this.chartBarRef.Name = "chartBarRef";
-            series7.ChartArea = "ChartArea1";
-            series7.Legend = "Legend1";
-            series7.Name = "Series1";
-            this.chartBarRef.Series.Add(series7);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chartBarRef.Series.Add(series1);
             this.chartBarRef.Size = new System.Drawing.Size(300, 300);
             this.chartBarRef.TabIndex = 10;
             this.chartBarRef.Text = "chart1";
@@ -353,62 +376,41 @@
             this.labelWeek.Text = "Select a Week to view:";
             this.labelWeek.Visible = false;
             // 
-            // labelLoadData
-            // 
-            this.labelLoadData.AutoSize = true;
-            this.labelLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLoadData.Location = new System.Drawing.Point(66, 32);
-            this.labelLoadData.Name = "labelLoadData";
-            this.labelLoadData.Size = new System.Drawing.Size(840, 20);
-            this.labelLoadData.TabIndex = 4;
-            this.labelLoadData.Text = "Click \"Load Data\" to initialise the dashboard! (Make sure you\'ve inserted all the" +
-    " data into the destination database first)";
-            // 
             // chartPie
             // 
-            chartArea8.Name = "ChartArea1";
-            this.chartPie.ChartAreas.Add(chartArea8);
-            legend8.Name = "Legend1";
-            this.chartPie.Legends.Add(legend8);
+            chartArea2.Name = "ChartArea1";
+            this.chartPie.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartPie.Legends.Add(legend2);
             this.chartPie.Location = new System.Drawing.Point(314, 66);
             this.chartPie.Name = "chartPie";
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series8.CustomProperties = "PieLabelStyle=Disabled";
-            series8.Legend = "Legend1";
-            series8.Name = "Series1";
-            this.chartPie.Series.Add(series8);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.CustomProperties = "PieLabelStyle=Disabled";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartPie.Series.Add(series2);
             this.chartPie.Size = new System.Drawing.Size(300, 300);
             this.chartPie.TabIndex = 2;
             this.chartPie.Text = "chart2";
             // 
             // chartBar
             // 
-            chartArea9.Name = "ChartArea1";
-            this.chartBar.ChartAreas.Add(chartArea9);
-            legend9.Enabled = false;
-            legend9.Name = "Legend1";
-            this.chartBar.Legends.Add(legend9);
+            chartArea3.Name = "ChartArea1";
+            this.chartBar.ChartAreas.Add(chartArea3);
+            legend3.Enabled = false;
+            legend3.Name = "Legend1";
+            this.chartBar.Legends.Add(legend3);
             this.chartBar.Location = new System.Drawing.Point(8, 66);
             this.chartBar.Name = "chartBar";
-            series9.ChartArea = "ChartArea1";
-            series9.Legend = "Legend1";
-            series9.Name = "Series1";
-            this.chartBar.Series.Add(series9);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chartBar.Series.Add(series3);
             this.chartBar.Size = new System.Drawing.Size(300, 300);
             this.chartBar.TabIndex = 1;
             this.chartBar.Text = "chart1";
-            // 
-            // buttonLoadData
-            // 
-            this.buttonLoadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonLoadData.Location = new System.Drawing.Point(388, 76);
-            this.buttonLoadData.Name = "buttonLoadData";
-            this.buttonLoadData.Size = new System.Drawing.Size(111, 49);
-            this.buttonLoadData.TabIndex = 0;
-            this.buttonLoadData.Text = "Load Data";
-            this.buttonLoadData.UseVisualStyleBackColor = true;
-            this.buttonLoadData.Click += new System.EventHandler(this.buttonLoadData_Click);
             // 
             // destinationDatabaseDataSet
             // 
