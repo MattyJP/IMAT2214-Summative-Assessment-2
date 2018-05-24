@@ -1117,31 +1117,6 @@ namespace GITTest
                 DisplayReferenceChart();
             }
         }
-
-        private void chartBarRef_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelWeek_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelRefError_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelCustReference_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 

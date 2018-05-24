@@ -244,7 +244,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // labelChartBarRef
             // 
@@ -290,7 +289,6 @@
             this.labelCustReference.TabIndex = 11;
             this.labelCustReference.Text = "Select a Customer Segment to view:";
             this.labelCustReference.Visible = false;
-            this.labelCustReference.Click += new System.EventHandler(this.labelCustReference_Click);
             // 
             // chartBarRef
             // 
@@ -308,7 +306,6 @@
             this.chartBarRef.Size = new System.Drawing.Size(300, 300);
             this.chartBarRef.TabIndex = 10;
             this.chartBarRef.Text = "chart1";
-            this.chartBarRef.Click += new System.EventHandler(this.chartBarRef_Click);
             // 
             // labelRefError
             // 
@@ -321,7 +318,6 @@
             this.labelRefError.TabIndex = 9;
             this.labelRefError.Text = "No sales for this customer segment this week!";
             this.labelRefError.Visible = false;
-            this.labelRefError.Click += new System.EventHandler(this.labelRefError_Click);
             // 
             // comboBoxSearch
             // 
@@ -356,7 +352,6 @@
             this.labelWeek.TabIndex = 5;
             this.labelWeek.Text = "Select a Week to view:";
             this.labelWeek.Visible = false;
-            this.labelWeek.Click += new System.EventHandler(this.labelWeek_Click);
             // 
             // labelLoadData
             // 
