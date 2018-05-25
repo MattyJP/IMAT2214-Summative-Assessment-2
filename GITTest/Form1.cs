@@ -17,6 +17,8 @@ namespace GITTest
         public Form1()
         {
             InitializeComponent();
+            comboBoxSearch.Enabled = false;
+            comboBoxWeek.Enabled = false;
         }
 
 
@@ -720,9 +722,189 @@ namespace GITTest
 
         private void buttonLoadData_Click(object sender, EventArgs e)
         {
-            //Add the Week fields from the Time dimension to the combo box
+            //Add the Week and Reference fields from the Time and Customer dimensions to the combo boxes
             BindDataWeek();
+            BindDataRef();
+            //Make the labels above the graphs visible
+            labelChartBar.Visible = true;
+            labelChartPie.Visible = true;
+            labelChartBarRef.Visible = true;
+            //P12213188 - Render the Load Data button and label invisible (and disable the button)
+            buttonLoadData.Enabled = false;
+            buttonLoadData.Visible = false;
+            labelLoadData.Visible = false;
         }
+
+        public void BindDataRef()
+        {
+
+            //Create a connection to the MDF file
+            string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+
+            //Create a list to store the reference names
+            List<string> References = new List<String>();
+
+            using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+            {
+                //Open the SqlConnection
+                myConnection.Open();
+                //Obtain the reference name from the Customer dimension with no duplicates
+                SqlCommand command = new SqlCommand("SELECT DISTINCT reference FROM Customer", myConnection);
+                //Run the command and read the results
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                        while (reader.Read())
+                        {
+                            //Add each distinct week number to the Weeks list
+                            References.Add(reader.GetString(0).ToString());
+                        }
+                }
+
+                foreach (string reference in References)
+                {
+                    //Assign each reference to the comboBox
+                    comboBoxSearch.Items.Add(reference);
+                }
+            }
+            //Set the comboBox to default to the first entry - P12213188
+            comboBoxSearch.SelectedIndex = 0;
+            //Enable the comboBox and render it visible
+            comboBoxSearch.Enabled = true;
+            comboBoxSearch.Visible = true;
+            //Enable the label and render it visible
+            labelCustReference.Enabled = true;
+            labelCustReference.Visible = true;
+        }
+        private void comboBoxSearch_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            //Populate the third chart covering weekly sales for a customer segment - P12213188
+            DisplayReferenceChart();
+        }
+
+        public void DisplayReferenceChart()
+        {
+            //This function controls what is displayed in the third chart
+            //P12213188 - It is a separate function, rather than part of the second comboBox event because it is called by both boxes' events
+            //This keeps the values relevant to which week is selected - P12213188
+
+            //Create a string variable to store the reference name
+            string reference = Convert.ToString(comboBoxSearch.SelectedItem);
+
+            //Create an Int32 variable to store the week number - P12213188
+            //P12213188 - As the first week in the database is week 0, it is displayed as Week 1
+            //We subtract the 1 that was added, thus matching the original week number P12213188
+            //We do not use the selected index, as the displayed weeks may not be displayed in sequence as only weeks with data are shown
+            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem) - 1;
+
+            //Create a list to store the dates found matching the week number
+            List<string> Dates = new List<string>();
+
+            //Dictionary to store the sales count, matching a date to a value
+            Dictionary<string, int> salesCountDates = new Dictionary<string, int>();
+
+            //Create a connection to the MDF file
+            string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
+
+            //Obtain the dates from the Customer database matching the week number
+            using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+            {
+                //Open the SqlConnection
+                myConnection.Open();
+                //Obtain the dates
+                SqlCommand command = new SqlCommand("SELECT date FROM Time WHERE weekNumber = @weekNumber", myConnection);
+                //Add the week number parameter
+                command.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
+                //Run the command and read the results
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        //Add each date to the list
+                        Dates.Add(reader.GetDateTime(0).ToString());
+                    }
+                }
+            }
+            //Create a new list for the formatted dates
+            List<string> DatesFormatted = new List<string>();
+            //Remove the time element from each date
+            foreach (string date in Dates)
+            {
+                //Split the string on whitespace and remove anything thats blank
+                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+                //Grab the first item (we know this is the date) and add it to our new list
+                DatesFormatted.Add(dates[0]);
+            }
+
+            //Run this code for each date in the list in order to populate the bar chart, focusing on overall daily sales per business week per customer segment - P12213188
+            foreach (string date in DatesFormatted)
+            {
+                string[] arrayDate = date.Split('/');
+                int year = Convert.ToInt32(arrayDate[2]);
+                int month = Convert.ToInt32(arrayDate[1]);
+                int day = Convert.ToInt32(arrayDate[0]);
+                string dateFormatted = year + "-" + month + "-" + day;
+
+                using (SqlConnection myConnection = new SqlConnection(connectionStringDestination))
+                {
+                    //Open the Sql connection
+                    myConnection.Open();
+                    //The following code use an Sql command based on the Sql connection
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Time ON FactTable.timeId = Time.timeId  INNER JOIN " +
+                        "Customer ON FactTable.customerId = Customer.customerId WHERE Time.date = @date AND Customer.reference = @reference", myConnection);
+                    //Add the date parameter
+                    command.Parameters.Add(new SqlParameter("date", dateFormatted));
+                    //Add the reference name parameter
+                    command.Parameters.Add(new SqlParameter("reference", reference));
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        //If there are rows, it means there were sales for the customer reference/segment - P12213188
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                salesCountDates.Add(date, Int32.Parse(reader["SalesNumber"].ToString()));
+                            }
+                        }
+                        //If there are no rows, it means there were 0 sales
+                        else
+                        {
+                            salesCountDates.Add(date, 0);
+                        }
+                    }
+
+                }
+            }
+
+            //Initialise a variable to store the total sales count, which begins at 0 - P12213188
+            Int32 totalSales = 0;
+
+            //This loop checks every entry in the salesCountDates dictionary. If all the values are 0, it displays a message indicating no sales within that customer segment through the week - P12213188
+            foreach (KeyValuePair<string, Int32> date in salesCountDates)
+            {
+                //Add the number of sales to totalSales - P12213188
+                totalSales = totalSales + date.Value;
+            }
+
+            //P12213188 - Check the value of totalSales afterward
+            if (totalSales == 0)
+            {
+                //If there are no sales all week, the error message is displayed indicating there are no sales for the week - P12213188
+                labelRefError.Visible = true; ;
+            }
+            //P12213188 - If there are sales for at least one day in the week, make the error message invisible
+            else
+            {
+                labelRefError.Visible = false;
+            }
+
+            //Build the bar chart for the third chart - P12213188
+            chartBarRef.DataSource = salesCountDates;
+            chartBarRef.Series[0].XValueMember = "Key";
+            chartBarRef.Series[0].YValueMembers = "Value";
+            chartBarRef.DataBind();
+        }
+
 
         public void BindDataWeek()
         {
@@ -757,21 +939,39 @@ namespace GITTest
 
             foreach (string week in Weeks)
             {
+                //Convert the week number to an Int32
+                //P12213188 - This also adds 1, as the first week in the database is classed as week 0
+                //With subsequent functions which check against the week number, this 1 is then subtracted to match the week number in the database - P12213188
+                Int32 weekNumber = Convert.ToInt32(week) + 1;
                 //Assign each week number to the comboBox
-                comboBoxWeek.Items.Add(week);
+                comboBoxWeek.Items.Add(weekNumber);
             }
 
-            //Enable the comboBox
+            //Set the comboBox to default to the first entry - P12213188
+            comboBoxWeek.SelectedIndex = 0;
+            //Enable the comboBox and render it visible
             comboBoxWeek.Enabled = true;
-            //Enable the label
+            comboBoxWeek.Visible = true;      
+            //Enable the label and render it visible
             labelWeek.Enabled = true;
+            labelWeek.Visible = true;
 
         }
-
-        private void comboBoxWeek_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxWeek_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            //Create an Int32 variable to hold the week number
-            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem);
+            //Initialise the function to display the charts matching the selected week - P12213188
+            DisplayWeekCharts();
+        }
+
+            public void DisplayWeekCharts()
+        {
+            //P12213188 - This function creates the charts displaying sales for each day in the business week, and for sales by product
+
+            //Create an Int32 variable to store the week number - P12213188
+            //P12213188 - As the first week in the database is week 0, it is displayed as Week 1
+            //We subtract the 1 that was added, thus matching the original week number P12213188
+            //We do not use the selected index, as the displayed weeks may not be displayed in sequence as only weeks with data are shown
+            Int32 weekNumber = Convert.ToInt32(comboBoxWeek.SelectedItem) - 1;
 
             //Create a list to store the dates found matching the week number
             List<string> Dates = new List<string>();
@@ -874,7 +1074,7 @@ namespace GITTest
                     //Open the Sql connection
                     myConnection.Open();
                     //The following code use an Sql command based on the Sql connection
-                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Product ON FactTable.productId = Product.productId INNER JOIN " 
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) AS SalesNumber FROM FactTable INNER JOIN Product ON FactTable.productId = Product.productId INNER JOIN "
                         + " Time ON FactTable.timeId = Time.timeId WHERE Product.category = @category AND Time.weekNumber=@weekNumber; ", myConnection);
                     //Add the parameters
                     command.Parameters.Add(new SqlParameter("category", category));
@@ -912,6 +1112,9 @@ namespace GITTest
                 chartPie.Series[0].XValueMember = "Key";
                 chartPie.Series[0].YValueMembers = "Value";
                 chartPie.DataBind();
+
+                //Populate the third chart covering weekly sales for a customer segment - P12213188
+                DisplayReferenceChart();
             }
         }
     }
