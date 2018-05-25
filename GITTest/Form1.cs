@@ -389,6 +389,7 @@ namespace GITTest
             List<string> DestinationProductsNamed = new List<string>();
             List<string> DestinationCustomersNamed = new List<string>();
             List<string> DestinationFactTableNamed = new List<string>();
+            List<string> DestinationSegmentNamed = new List<string>();
 
             //Create the database string
             string connectionStringDestination = Properties.Settings.Default.DestinationDatabaseConnectionString;
@@ -401,7 +402,7 @@ namespace GITTest
                 SqlCommand productCommand = new SqlCommand("SELECT category, subcategory, productName from Product", connection);
                 SqlCommand customerCommand = new SqlCommand("SELECT customerName, country, city, state, postalCode, region, reference from Customer", connection);
                 SqlCommand factTableCommand = new SqlCommand("SELECT productId, timeId, customerId, value, discount, profit, quantity from FactTable", connection);
-
+                SqlCommand segmentCommand = new SqlCommand("SELECT id, orderDate, customerID, segment, productID, category, subCategory, sales, profit, discount FROM Sales", connection);
                 using (SqlDataReader reader = timeCommand.ExecuteReader())
                 {
                     //If there are rows, it means the date exists so change the exists variable
@@ -468,6 +469,23 @@ namespace GITTest
                         DestinationFactTableNamed.Add("No Data Present");
                     }
                 }
+                using (SqlDataReader reader = segmentCommand.ExecuteReader())
+                {
+                    //If there are rows, it means the date exists so change the exists variable
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            DestinationSegmentNamed.Add("ID: " + reader["Id"].ToString() + ", Customer ID: " + reader["customerId"].ToString() + ", Segment: " + reader["Segment"].ToString() + ", Product ID: " + reader["productID"].ToString() + ", Category: " + reader["category"].ToString() + ", Sub-Category : " + reader["Sub-Category"].ToString() + ", Sales: " + reader["sales"].ToString() + ", Profit " + reader["profit"].ToString() + ", Discount" + reader["discount"].ToString());
+                            Console.Write("Segment Data Exist!");     
+                        }
+                    }
+                    else
+                    {
+                        DestinationSegmentNamed.Add("No Data Present");
+                        Console.WriteLine("Segment Data Not Showing");
+                    }
+                }
             }
 
             //Bind the listbox to the list
@@ -475,6 +493,7 @@ namespace GITTest
             listBoxProductsFromDbNamed.DataSource = DestinationProductsNamed;
             listBoxCustomersFromDbNamed.DataSource = DestinationCustomersNamed;
             listBoxFactTableFromDbNamed.DataSource = DestinationFactTableNamed;
+            listBoxSalesFromDbNamed.DataSource = DestinationSegmentNamed;
         }
 
         private void buttonGetFactTable_Click(object sender, EventArgs e)
@@ -718,6 +737,10 @@ namespace GITTest
             return customerId;
         }
 
+        ///
+        /// END OF TAB 1
+        /// 
+        
         private void buttonLoadData_Click(object sender, EventArgs e)
         {
             //Add the Week fields from the Time dimension to the combo box
@@ -777,6 +800,8 @@ namespace GITTest
             List<string> Dates = new List<string>();
             //Create a list to store the dates found matching the week number
             List<string> Categories = new List<string>();
+            //Create a list to store the departments found. 
+            List<string> Departments = new List<string>();
             //Dictionary to store the sales count, matching a date to a value
             Dictionary<string, int> salesCount = new Dictionary<string, int>();
             //Dictionary to store the sales count, matching a date to a value
@@ -794,6 +819,8 @@ namespace GITTest
                 SqlCommand salesCommand = new SqlCommand("SELECT date FROM Time WHERE weekNumber=@weekNumber", myConnection);
                 //Obtain the category names
                 SqlCommand categoryCommand = new SqlCommand("SELECT DISTINCT category FROM Product", myConnection);
+                //obtain the department names
+                //SqlCommand departmentCommand = new SqlCommand("SELECT  ")
                 //Add the week number parameter
                 salesCommand.Parameters.Add(new SqlParameter("weekNumber", weekNumber));
                 //Run the command and read the results
@@ -826,7 +853,7 @@ namespace GITTest
                 //Grab the first item (we know this is the date) and add it to our new list
                 DatesFormatted.Add(dates[0]);
             }
-
+            /// BAR CHART
             //Run this code for each date in the list in order to populate the bar chart, focusing on overall daily sales per business week
             foreach (string date in DatesFormatted)
             {
@@ -865,7 +892,7 @@ namespace GITTest
 
                 }
             }
-
+            /// Pie Chart
             //Run this code for each category in the list in order to populate the pie chart, focusing on weekly sales per product category
             foreach (string category in Categories)
             {
@@ -898,8 +925,13 @@ namespace GITTest
                             salesCountCategoryWeekly.Add(category, 0);
                         }
                     }
-
                 }
+
+                ///Line Graph
+                //Run this code in order to populate the line graph, to display all profits of all weeks by department.
+
+
+
 
                 //Build the bar chart
                 chartBar.DataSource = salesCount;
@@ -912,7 +944,87 @@ namespace GITTest
                 chartPie.Series[0].XValueMember = "Key";
                 chartPie.Series[0].YValueMembers = "Value";
                 chartPie.DataBind();
+
+                //Build the Line Chart
+                chartLine.DataSource = salesCountCategoryWeekly;
+                chartLine.Series[0].XValueMember = "Key";
+                //chartLine.Series[0].YValueMembers = "Value";
+                chartLine.DataBind();
             }
+        }
+
+        private void buttonSales_Click(object sender, EventArgs e)
+        {
+            List<string> Segments = new List<string>();
+            //clear the listbox
+            listBoxSales.Items.Clear();
+
+            //Create the database string
+            string connectionString = Properties.Settings.Default.Data_set_1ConnectionString;
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                OleDbCommand getSegments = new OleDbCommand("SELECT ID, [Order Date], [Customer ID], Segment, [Product ID], Category, [Sub-Category], Sales, Profit, Discount FROM Sheet1", connection);
+
+                reader = getSegments.ExecuteReader();
+                while (reader.Read())
+                {
+                    //Add the results to the list, with ceach segment separated by an underscore
+                    //This allows them to be separated and divided into their respective database columns through the split command later on
+                    Segments.Add(reader[0].ToString() + "_" + reader[1].ToString() + "_" + reader[2].ToString() + "_" +
+                        reader[3].ToString() + "_" + reader[4].ToString() + "_" + reader[5].ToString() + "_" + reader[6].ToString());
+                }
+            }
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+                OleDbDataReader reader = null;
+                OleDbCommand getSegments = new OleDbCommand("SELECT [Order Date], [Customer ID], Segment, [Product ID], Category, [Sub-Category], Sales, Discount, Profit FROM [Student Sample 2 - Sheet1]", connection);
+
+                reader = getSegments.ExecuteReader();
+                while (reader.Read())
+                {
+                    //Add the results to the list, with ceach segment separated by an underscore
+                    //This allows them to be separated and divided into their respective database columns through the split command later on
+                    Segments.Add(reader[0].ToString() + "_" + reader[1].ToString() + "_" + reader[2].ToString() + "_" +
+                        reader[3].ToString() + "_" + reader[4].ToString() + "_" + reader[5].ToString() + "_" + reader[6].ToString());
+                }
+                //Create a new list for the formatted data 
+                List<String> SegmentsFormatted = new List<string>();
+
+                foreach (string date in Segments)
+                {
+                    //split the string on whitespace and remove anything thats blank.
+                    var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+                    //grab the first item (we know this is the date) and add it to our new list.
+                    SegmentsFormatted.Add(dates[0]);
+                }
+
+                //Bind the ListBox to the List
+                listBoxSales.DataSource = Segments;
+                //Splits dates down to variables
+                splitSegments(SegmentsFormatted[0]);
+                splitCustomers(SegmentsFormatted[0]);
+                splitDates(SegmentsFormatted[0]);
+                //Disables the button after use as the data is already taken
+                buttonSales.Enabled = false;
+            }
+        }
+        
+        private void splitSegments(string segments)
+        {
+            //split the segment list entry down. 
+            string[] arraySegment = segments.Split('_');
+            string segmentName = arraySegment[0];
+            //string orderDate = arraySegment[1];
+            string segment = arraySegment[2];
+            string subCategory = arraySegment[3];
+            //string sales = arraySegment[4];
+            string category = arraySegment[5];
+            //string profit = arraySegment[6];
+
         }
     }
 }
