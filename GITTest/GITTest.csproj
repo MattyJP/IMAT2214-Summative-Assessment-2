@@ -92,6 +92,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Data_set_1DataSet.xsc">
       <DependentUpon>Data_set_1DataSet.xsd</DependentUpon>
@@ -142,6 +143,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>DestinationDatabase.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\GC LOGO v2.jpg" />
+    <None Include="Resources\tabPage1 border.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
