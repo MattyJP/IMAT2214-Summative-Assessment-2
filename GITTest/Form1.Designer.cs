@@ -29,18 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBoxDates = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.CopyrightsLabel = new System.Windows.Forms.Label();
             this.SloganLabel = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -76,10 +80,7 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
             this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.listBoxFactTable = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -101,7 +102,7 @@
             this.listBoxDates.Location = new System.Drawing.Point(26, 155);
             this.listBoxDates.Name = "listBoxDates";
             this.listBoxDates.ScrollAlwaysVisible = true;
-            this.listBoxDates.Size = new System.Drawing.Size(322, 108);
+            this.listBoxDates.Size = new System.Drawing.Size(322, 82);
             this.listBoxDates.TabIndex = 3;
             // 
             // tabControl1
@@ -116,6 +117,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.listBoxFactTable);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
@@ -144,10 +146,52 @@
             this.tabPage1.Text = "Data Population";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(358, 26);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(410, 26);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "Click \"Get from Database\" to pull every entry from the Destination Database, \r\nTh" +
+    "ey are empty until you populate the using the controls on the left side of the s" +
+    "creen.";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(27, 96);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(312, 26);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "After creating the dimensions, click the button below to populate \r\nthe fact tabl" +
+    "e.";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 41);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(268, 26);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "To populate the destination database from the dataset, \r\nclick on the buttons bel" +
+    "ow.";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(22, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(303, 20);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Welcome to the Data Population Tab";
+            // 
             // CopyrightsLabel
             // 
             this.CopyrightsLabel.AutoSize = true;
-            this.CopyrightsLabel.Location = new System.Drawing.Point(24, 510);
+            this.CopyrightsLabel.Location = new System.Drawing.Point(723, 512);
             this.CopyrightsLabel.Name = "CopyrightsLabel";
             this.CopyrightsLabel.Size = new System.Drawing.Size(204, 13);
             this.CopyrightsLabel.TabIndex = 17;
@@ -228,10 +272,10 @@
             // 
             this.listBoxCustomers.FormattingEnabled = true;
             this.listBoxCustomers.HorizontalScrollbar = true;
-            this.listBoxCustomers.Location = new System.Drawing.Point(26, 386);
+            this.listBoxCustomers.Location = new System.Drawing.Point(26, 331);
             this.listBoxCustomers.Name = "listBoxCustomers";
             this.listBoxCustomers.ScrollAlwaysVisible = true;
-            this.listBoxCustomers.Size = new System.Drawing.Size(322, 108);
+            this.listBoxCustomers.Size = new System.Drawing.Size(322, 82);
             this.listBoxCustomers.TabIndex = 7;
             // 
             // buttonGetCustomers
@@ -248,10 +292,10 @@
             // 
             this.listBoxProducts.FormattingEnabled = true;
             this.listBoxProducts.HorizontalScrollbar = true;
-            this.listBoxProducts.Location = new System.Drawing.Point(26, 272);
+            this.listBoxProducts.Location = new System.Drawing.Point(26, 243);
             this.listBoxProducts.Name = "listBoxProducts";
             this.listBoxProducts.ScrollAlwaysVisible = true;
-            this.listBoxProducts.Size = new System.Drawing.Size(322, 108);
+            this.listBoxProducts.Size = new System.Drawing.Size(322, 82);
             this.listBoxProducts.TabIndex = 5;
             // 
             // buttonGetProducts
@@ -399,7 +443,7 @@
             this.labelCustReference.AutoSize = true;
             this.labelCustReference.Enabled = false;
             this.labelCustReference.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCustReference.Location = new System.Drawing.Point(500, 98);
+            this.labelCustReference.Location = new System.Drawing.Point(353, 39);
             this.labelCustReference.Name = "labelCustReference";
             this.labelCustReference.Size = new System.Drawing.Size(221, 16);
             this.labelCustReference.TabIndex = 11;
@@ -408,18 +452,18 @@
             // 
             // chartBarRef
             // 
-            chartArea10.Name = "ChartArea1";
-            this.chartBarRef.ChartAreas.Add(chartArea10);
-            legend10.Enabled = false;
-            legend10.Name = "Legend1";
-            this.chartBarRef.Legends.Add(legend10);
+            chartArea16.Name = "ChartArea1";
+            this.chartBarRef.ChartAreas.Add(chartArea16);
+            legend16.Enabled = false;
+            legend16.Name = "Legend1";
+            this.chartBarRef.Legends.Add(legend16);
             this.chartBarRef.Location = new System.Drawing.Point(610, 153);
             this.chartBarRef.Name = "chartBarRef";
-            series10.ChartArea = "ChartArea1";
-            series10.Legend = "Legend1";
-            series10.Name = "Series1";
-            series10.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            this.chartBarRef.Series.Add(series10);
+            series16.ChartArea = "ChartArea1";
+            series16.Legend = "Legend1";
+            series16.Name = "Series1";
+            series16.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chartBarRef.Series.Add(series16);
             this.chartBarRef.Size = new System.Drawing.Size(300, 300);
             this.chartBarRef.TabIndex = 10;
             this.chartBarRef.Text = "chart1";
@@ -440,7 +484,7 @@
             // 
             this.comboBoxSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxSearch.FormattingEnabled = true;
-            this.comboBoxSearch.Location = new System.Drawing.Point(727, 95);
+            this.comboBoxSearch.Location = new System.Drawing.Point(580, 36);
             this.comboBoxSearch.Name = "comboBoxSearch";
             this.comboBoxSearch.Size = new System.Drawing.Size(121, 24);
             this.comboBoxSearch.TabIndex = 8;
@@ -451,7 +495,7 @@
             // 
             this.comboBoxWeek.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxWeek.FormattingEnabled = true;
-            this.comboBoxWeek.Location = new System.Drawing.Point(298, 97);
+            this.comboBoxWeek.Location = new System.Drawing.Point(191, 36);
             this.comboBoxWeek.Name = "comboBoxWeek";
             this.comboBoxWeek.Size = new System.Drawing.Size(121, 24);
             this.comboBoxWeek.TabIndex = 7;
@@ -463,7 +507,7 @@
             this.labelWeek.AutoSize = true;
             this.labelWeek.Enabled = false;
             this.labelWeek.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWeek.Location = new System.Drawing.Point(153, 102);
+            this.labelWeek.Location = new System.Drawing.Point(46, 41);
             this.labelWeek.Name = "labelWeek";
             this.labelWeek.Size = new System.Drawing.Size(143, 16);
             this.labelWeek.TabIndex = 5;
@@ -472,36 +516,36 @@
             // 
             // chartPie
             // 
-            chartArea11.Name = "ChartArea1";
-            this.chartPie.ChartAreas.Add(chartArea11);
-            legend11.Name = "Legend1";
-            this.chartPie.Legends.Add(legend11);
+            chartArea17.Name = "ChartArea1";
+            this.chartPie.ChartAreas.Add(chartArea17);
+            legend17.Name = "Legend1";
+            this.chartPie.Legends.Add(legend17);
             this.chartPie.Location = new System.Drawing.Point(318, 153);
             this.chartPie.Name = "chartPie";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series11.CustomProperties = "PieLabelStyle=Disabled";
-            series11.Legend = "Legend1";
-            series11.Name = "Series1";
-            this.chartPie.Series.Add(series11);
+            series17.ChartArea = "ChartArea1";
+            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series17.CustomProperties = "PieLabelStyle=Disabled";
+            series17.Legend = "Legend1";
+            series17.Name = "Series1";
+            this.chartPie.Series.Add(series17);
             this.chartPie.Size = new System.Drawing.Size(300, 300);
             this.chartPie.TabIndex = 2;
             this.chartPie.Text = "chart2";
             // 
             // chartBar
             // 
-            chartArea12.Name = "ChartArea1";
-            this.chartBar.ChartAreas.Add(chartArea12);
-            legend12.Enabled = false;
-            legend12.Name = "Legend1";
-            this.chartBar.Legends.Add(legend12);
+            chartArea18.Name = "ChartArea1";
+            this.chartBar.ChartAreas.Add(chartArea18);
+            legend18.Enabled = false;
+            legend18.Name = "Legend1";
+            this.chartBar.Legends.Add(legend18);
             this.chartBar.Location = new System.Drawing.Point(12, 153);
             this.chartBar.Name = "chartBar";
-            series12.ChartArea = "ChartArea1";
-            series12.Legend = "Legend1";
-            series12.Name = "Series1";
-            series12.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            this.chartBar.Series.Add(series12);
+            series18.ChartArea = "ChartArea1";
+            series18.Legend = "Legend1";
+            series18.Name = "Series1";
+            series18.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chartBar.Series.Add(series18);
             this.chartBar.Size = new System.Drawing.Size(300, 300);
             this.chartBar.TabIndex = 1;
             this.chartBar.Text = "chart1";
@@ -525,46 +569,15 @@
             this.destinationDatabaseDataSetBindingSource.DataSource = this.destinationDatabaseDataSet;
             this.destinationDatabaseDataSetBindingSource.Position = 0;
             // 
-            // label3
+            // listBoxFactTable
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(22, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(303, 20);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "Welcome to the Data Population Tab";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(23, 41);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(268, 26);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "To populate the destination database from the dataset, \r\nclick on the buttons bel" +
-    "ow.";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 96);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(312, 26);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "After creating the dimensions, click the button below to populate \r\nthe fact tabl" +
-    "e.";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(358, 26);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(410, 26);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "Click \"Get from Database\" to pull every entry from the Destination Database, \r\nTh" +
-    "ey are empty until you populate the using the controls on the left side of the s" +
-    "creen.";
+            this.listBoxFactTable.FormattingEnabled = true;
+            this.listBoxFactTable.HorizontalScrollbar = true;
+            this.listBoxFactTable.Location = new System.Drawing.Point(25, 419);
+            this.listBoxFactTable.Name = "listBoxFactTable";
+            this.listBoxFactTable.ScrollAlwaysVisible = true;
+            this.listBoxFactTable.Size = new System.Drawing.Size(323, 82);
+            this.listBoxFactTable.TabIndex = 22;
             // 
             // Form1
             // 
@@ -635,6 +648,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ListBox listBoxFactTable;
     }
 }
 

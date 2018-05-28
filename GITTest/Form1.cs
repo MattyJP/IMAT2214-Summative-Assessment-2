@@ -522,11 +522,14 @@ namespace GITTest
                         reader[2].ToString() + "#" + reader[3].ToString() + "_" + reader[4].ToString() + "_" + reader[5].ToString() + "_" + reader[6].ToString());
                 }
             }
+            //Bind the listbox to the list.
+            listBoxFactTable.DataSource = Orders;
+
             //Split the orders and insert every order in the list
             foreach (string order in Orders)
             {
                 populateFactTable(order);
-            }
+            }           
         }
 
         private void populateFactTable(string order)
@@ -626,6 +629,7 @@ namespace GITTest
                                 throw;
                             }
                         }
+
                     }
                 }
             }
