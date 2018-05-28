@@ -70,10 +70,10 @@ namespace GITTest
 
             foreach (string date in Dates)
             {
-                //Split the string on whitespace and remove anything thats blan.
-                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                //Grab the first item (we know this is the date) and add it to our new list
-                DatesFormatted.Add(dates[0]);
+                //Remove the empty time entry
+                string dateFormatted = RemoveBlankTime(date);
+                //Add the formatted date to the list
+                DatesFormatted.Add(dateFormatted);
             }
 
             //Bind the listbox to the list.
@@ -86,6 +86,8 @@ namespace GITTest
             }
             //Disables the button after use as the data is already taken
             buttonGetDates.Enabled = false;
+            //Check if all the dimension creation buttons are disabled. If they are, the fact table is ready to be populated.
+            CheckDimensionsPopulated();
         }
 
         private void buttonGetProducts_Click(object sender, EventArgs e)
@@ -136,6 +138,8 @@ namespace GITTest
             }
             //Disables the button after use as the data is already taken
             buttonGetProducts.Enabled = false;
+            //Check if all the dimension creation buttons are disabled. If they are, the fact table is ready to be populated.
+            CheckDimensionsPopulated();
         }
 
         private void buttonGetCustomers_Click(object sender, EventArgs e)
@@ -190,6 +194,8 @@ namespace GITTest
             }
             //Disables the button after use as the data is already taken
             buttonGetCustomers.Enabled = false;
+            //Check if all the dimension creation buttons are disabled. If they are, the fact table is ready to be populated.
+            CheckDimensionsPopulated();
         }
 
         private void splitDates(string date)
@@ -479,6 +485,18 @@ namespace GITTest
             listBoxFactTableFromDbNamed.DataSource = DestinationFactTableNamed;
         }
 
+        private void CheckDimensionsPopulated()
+        {
+            //This function enables the "Populate Fact Table" button after all the other dimensions are created.
+            //It simply checks that all the creation buttons are disabled, indicating the process is ready to begin.
+            if (buttonGetDates.Enabled == false && buttonGetCustomers.Enabled == false && buttonGetProducts.Enabled == false)
+            {
+                //Enable the Populate Fact Table button
+                buttonGetFactTable.Enabled = true;
+            }
+
+        }
+
         private void buttonGetFactTable_Click(object sender, EventArgs e)
         {
             //Create new list to store the results in.
@@ -516,9 +534,15 @@ namespace GITTest
                 reader = getOrders.ExecuteReader();
                 while (reader.Read())
                 {
+                    //The first entry is a date value which is accompanied by an empty time field
+                    //Initialise a string which formats it appropriately before adding it to the list
+                    String reee = reader[0].ToString();
+                    Console.WriteLine(reee);
+                    String OrderDate = RemoveBlankTime(reee);
+                    //Console.WriteLine(OrderDate);
                     //Data from different tables is separated with a #, while data from the same table is separated with an underscore
                     //This allows them to be split into smaller arrays later in the process
-                    Orders.Add(reader[0].ToString() + "#" + reader[1].ToString() + "#" +
+                    Orders.Add(OrderDate + "#" + reader[1].ToString() + "#" +
                         reader[2].ToString() + "#" + reader[3].ToString() + "_" + reader[4].ToString() + "_" + reader[5].ToString() + "_" + reader[6].ToString());
                 }
             }
@@ -558,10 +582,10 @@ namespace GITTest
             List<string> DatesFormatted = new List<string>();
             foreach (string date in Dates)
             {
-                //Split the string on whitespace and remove anything thats blank.
-                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                //Grab the first item (we know this is the date) and add it to our new list.
-                DatesFormatted.Add(dates[0]);
+                //Remove the empty time entry
+                string dateFormatted = RemoveBlankTime(date);
+                //Add the formatted date to the list
+                DatesFormatted.Add(dateFormatted);
             }
 
             foreach (string date in DatesFormatted)
@@ -633,6 +657,15 @@ namespace GITTest
                     }
                 }
             }
+        }
+
+        private string RemoveBlankTime (string date)
+        {
+            //Split the string on whitespace and remove anything thats blank.
+            var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            //Add the first entry to the dateFormatted string as it is the formatted date value minus time
+            string dateFormatted = dates[0].ToString();
+            return dateFormatted;
         }
 
         private int GetTimeId(string dbDate)
@@ -833,10 +866,10 @@ namespace GITTest
             //Remove the time element from each date
             foreach (string date in Dates)
             {
-                //Split the string on whitespace and remove anything thats blank
-                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                //Grab the first item (we know this is the date) and add it to our new list
-                DatesFormatted.Add(dates[0]);
+                //Remove the empty time entry
+                string dateFormatted = RemoveBlankTime(date);
+                //Add the formatted date to the list
+                DatesFormatted.Add(dateFormatted);
             }
 
             //Run this code for each date in the list in order to populate the bar chart, focusing on overall daily sales per business week per customer segment - P12213188
@@ -1025,10 +1058,10 @@ namespace GITTest
             //Remove the time element from each date
             foreach (string date in Dates)
             {
-                //Split the string on whitespace and remove anything thats blan.
-                var dates = date.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                //Grab the first item (we know this is the date) and add it to our new list
-                DatesFormatted.Add(dates[0]);
+                //Remove the empty time entry
+                string dateFormatted = RemoveBlankTime(date);
+                //Add the formatted date to the list
+                DatesFormatted.Add(dateFormatted);
             }
 
             //Run this code for each date in the list in order to populate the bar chart, focusing on overall daily sales per business week
@@ -1122,10 +1155,6 @@ namespace GITTest
             }
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 

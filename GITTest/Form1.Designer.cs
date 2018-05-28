@@ -29,18 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.listBoxDates = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.listBoxFactTable = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -80,7 +81,6 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.destinationDatabaseDataSet = new GITTest.DestinationDatabaseDataSet();
             this.destinationDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.listBoxFactTable = new System.Windows.Forms.ListBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -145,6 +145,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Data Population";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // listBoxFactTable
+            // 
+            this.listBoxFactTable.FormattingEnabled = true;
+            this.listBoxFactTable.HorizontalScrollbar = true;
+            this.listBoxFactTable.Location = new System.Drawing.Point(25, 419);
+            this.listBoxFactTable.Name = "listBoxFactTable";
+            this.listBoxFactTable.ScrollAlwaysVisible = true;
+            this.listBoxFactTable.Size = new System.Drawing.Size(323, 82);
+            this.listBoxFactTable.TabIndex = 22;
             // 
             // label6
             // 
@@ -218,6 +228,7 @@
             // 
             // buttonGetFactTable
             // 
+            this.buttonGetFactTable.Enabled = false;
             this.buttonGetFactTable.Location = new System.Drawing.Point(26, 126);
             this.buttonGetFactTable.Name = "buttonGetFactTable";
             this.buttonGetFactTable.Size = new System.Drawing.Size(322, 23);
@@ -362,7 +373,6 @@
             this.label2.Size = new System.Drawing.Size(204, 13);
             this.label2.TabIndex = 18;
             this.label2.Text = "© 2018 GeneriCorp. All Rights Reserved. ";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -452,18 +462,18 @@
             // 
             // chartBarRef
             // 
-            chartArea16.Name = "ChartArea1";
-            this.chartBarRef.ChartAreas.Add(chartArea16);
-            legend16.Enabled = false;
-            legend16.Name = "Legend1";
-            this.chartBarRef.Legends.Add(legend16);
+            chartArea1.Name = "ChartArea1";
+            this.chartBarRef.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chartBarRef.Legends.Add(legend1);
             this.chartBarRef.Location = new System.Drawing.Point(610, 153);
             this.chartBarRef.Name = "chartBarRef";
-            series16.ChartArea = "ChartArea1";
-            series16.Legend = "Legend1";
-            series16.Name = "Series1";
-            series16.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            this.chartBarRef.Series.Add(series16);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chartBarRef.Series.Add(series1);
             this.chartBarRef.Size = new System.Drawing.Size(300, 300);
             this.chartBarRef.TabIndex = 10;
             this.chartBarRef.Text = "chart1";
@@ -516,36 +526,36 @@
             // 
             // chartPie
             // 
-            chartArea17.Name = "ChartArea1";
-            this.chartPie.ChartAreas.Add(chartArea17);
-            legend17.Name = "Legend1";
-            this.chartPie.Legends.Add(legend17);
+            chartArea2.Name = "ChartArea1";
+            this.chartPie.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartPie.Legends.Add(legend2);
             this.chartPie.Location = new System.Drawing.Point(318, 153);
             this.chartPie.Name = "chartPie";
-            series17.ChartArea = "ChartArea1";
-            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series17.CustomProperties = "PieLabelStyle=Disabled";
-            series17.Legend = "Legend1";
-            series17.Name = "Series1";
-            this.chartPie.Series.Add(series17);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.CustomProperties = "PieLabelStyle=Disabled";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartPie.Series.Add(series2);
             this.chartPie.Size = new System.Drawing.Size(300, 300);
             this.chartPie.TabIndex = 2;
             this.chartPie.Text = "chart2";
             // 
             // chartBar
             // 
-            chartArea18.Name = "ChartArea1";
-            this.chartBar.ChartAreas.Add(chartArea18);
-            legend18.Enabled = false;
-            legend18.Name = "Legend1";
-            this.chartBar.Legends.Add(legend18);
+            chartArea3.Name = "ChartArea1";
+            this.chartBar.ChartAreas.Add(chartArea3);
+            legend3.Enabled = false;
+            legend3.Name = "Legend1";
+            this.chartBar.Legends.Add(legend3);
             this.chartBar.Location = new System.Drawing.Point(12, 153);
             this.chartBar.Name = "chartBar";
-            series18.ChartArea = "ChartArea1";
-            series18.Legend = "Legend1";
-            series18.Name = "Series1";
-            series18.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            this.chartBar.Series.Add(series18);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chartBar.Series.Add(series3);
             this.chartBar.Size = new System.Drawing.Size(300, 300);
             this.chartBar.TabIndex = 1;
             this.chartBar.Text = "chart1";
@@ -568,16 +578,6 @@
             // 
             this.destinationDatabaseDataSetBindingSource.DataSource = this.destinationDatabaseDataSet;
             this.destinationDatabaseDataSetBindingSource.Position = 0;
-            // 
-            // listBoxFactTable
-            // 
-            this.listBoxFactTable.FormattingEnabled = true;
-            this.listBoxFactTable.HorizontalScrollbar = true;
-            this.listBoxFactTable.Location = new System.Drawing.Point(25, 419);
-            this.listBoxFactTable.Name = "listBoxFactTable";
-            this.listBoxFactTable.ScrollAlwaysVisible = true;
-            this.listBoxFactTable.Size = new System.Drawing.Size(323, 82);
-            this.listBoxFactTable.TabIndex = 22;
             // 
             // Form1
             // 
